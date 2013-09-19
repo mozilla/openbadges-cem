@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-node_modules
-.idea
-=======
 .#*
 *log
 *~
@@ -16,4 +12,4 @@ local.env
 /docs
 /node_modules
 /bower_components
->>>>>>> upstream/master
+/.idea
