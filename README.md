@@ -11,3 +11,5 @@ $ [sudo] gem install compass
 $ cd path/to/project
 $ compass watch
 ```
+
+View it live: http://proto.ballard.is/moz/cem/
