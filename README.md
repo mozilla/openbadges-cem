@@ -1,6 +1,8 @@
 The CEM prototype
 ===================
 
+Assets and planning for Open Badges platform for Connected Educator Month.
+
 For live edits to SASS:
 
 ```bash
