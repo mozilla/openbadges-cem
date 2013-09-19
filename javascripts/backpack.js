@@ -277,6 +277,8 @@ function retrieveApply(hash) {
   '<ul><li>Some criteria</li><li>Some criteria</li><li>Some criteria</li></ul>' +
   '<h4>Tell us more about your work:</h4>' +
   '<textarea></textarea>' +
+  '<h4>Your E-mail:</h4>' +
+  '<input type="text">' +
   '<a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>'+
   '<br>Link: <a target=_blank href="http://proto.ballard.is'+docroot+'/'+'#badgedetail='+hash+'">http://proto.ballard.is/'+docroot+'/'+'#badgedetail='+hash+'</a>'
   '</div>';
