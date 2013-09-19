@@ -19,17 +19,17 @@ const TOKEN_LIFETIME = process.env['OPENBADGER_TOKEN_LIFETIME'] || 10000;
 
 var openbadger = require('openbadger-client')(ENDPOINT, JWT_SECRET);
 
-app.use(express.compress());
-app.use(express.bodyParser());
-app.use(express.static(path.join(__dirname, 'static')));
-app.use(express.static(path.join(__dirname, 'bower_components')));
-
 app.use(sass.middleware({
   root: path.join(__dirname, 'bower_components'),
   src: 'foundation/scss',
   dest: 'foundation/css',
   debug: true
 }));
+
+app.use(express.compress());
+app.use(express.bodyParser());
+app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
 
 app.get('/', function(req, res, next) {
   res.send(200, 'hi there, <a href="/claim">claim</a> or <a href="/badges">badges</a> or <a href="/award">award</a>.'); }
