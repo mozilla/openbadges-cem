@@ -7595,3 +7595,8 @@ h2 .collection_action {
 #openbadger .badge-thumbs.vertical li:nth-child(even) > a {
   background-color: #f0eee0;
 }
+
+/* line 410, ../sass/app.scss */
+#openbadger textarea {
+  min-height: 100px;
+}

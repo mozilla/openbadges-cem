@@ -222,6 +222,9 @@ $(document).ready(function() {
           '<h3><input type="text" value="Some Badge"></h3>'+
           '<div class="row">'+
           '<div class="large-6 columns">'+
+          '<label>Description</label>'+
+          '<textarea>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </textarea>'+
+          '<label>Criteria</label>'+
           '<textarea>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </textarea>'+
           '</div>'+
           '<div class="large-6 columns">'+
@@ -229,14 +232,7 @@ $(document).ready(function() {
           '</div>'+
           '</div>'+
           '<div class="large-6 columns" style="padding:0 0 0 0;">'+
-              '<div class="row collapse">'+
-                '<div class="small-9 columns">'+
-                  '<input type="text" placeholder="Enter your e-mail address...">'+
-                '</div>'+
-                '<div class="small-3 columns">'+
-                  '<span class="postfix"><a href="./">Claim</a></span>'+
-                '</div>'+
-              '</div>'+
+              '<a href="./admin.html" class="button medium">Submit</a>'+
             '</div>'+
         '</div>';
 
