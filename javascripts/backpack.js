@@ -13,10 +13,7 @@ $(document).ready(function() {
   //the click function for lists of badge thumbnails
   $( 'body' ).delegate( "a", "click", function() {
 
-    if($('.logged-out').length != 0) {
-      makeAlert('Please <a class="button small" href="persona.html">log in</a> to make changes to your badges.','alert');
-      return false;
-    }
+
     var target = $( this );
     var hashOrAction = $( this ).attr('class').split(' ')[1];
     var ui = 0;
@@ -60,20 +57,7 @@ $(document).ready(function() {
             target.addClass('chosen').parents('li').append(ui).find('.ui').fadeIn('fast');
           });
         }
-      //for vertical thumbnail badges (in lists)
-      } else if (target.parents('ul').hasClass('vertical')) {
-        //SOMEB BUG HERE - WHEN YOU TOGGLE VISIBLE A BUNCH OF VERTICALS THEN TOGGLE INVISI ALL DISAPPEAR
-        if (target.hasClass('chosen')) {
-          target.removeClass('chosen').parents('li').find('.ui').fadeOut('fast', function() {
-              $(this).remove();
-            });
-        } else {
-          ui = makeUI(hashOrAction,ui)
-          target.addClass('chosen').parent().append(ui).find('.ui').fadeIn('fast');
-        }
-
-
-      }
+      } 
     return false;
   //Perform action based on clicked Badge UI item
   } else if (target.hasClass('badge_action')) {
@@ -91,6 +75,8 @@ $(document).ready(function() {
      $('div.claimtoggle').fadeIn('fast');
     });
     return false;
+  } else if (target.hasClass('badgerow')){
+    makeReveal(target);
   } else {
     console.log('some other link');
   }
@@ -227,6 +213,35 @@ $(document).ready(function() {
     }
     outer.appendTo('body').fadeIn('fast');
 
+  }
+
+  function makeReveal(element){
+    if(element.is('.reveal')) {
+      var output = ''+
+        '<div class="fullbadge">'+
+          '<h3><input type="text" value="Some Badge"></h3>'+
+          '<div class="row">'+
+          '<div class="large-6 columns">'+
+          '<textarea>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </textarea>'+
+          '</div>'+
+          '<div class="large-6 columns">'+
+          '<img src="/moz/cem/img/badge/badgehash-x-l.png">'+
+          '</div>'+
+          '</div>'+
+          '<div class="large-6 columns" style="padding:0 0 0 0;">'+
+              '<div class="row collapse">'+
+                '<div class="small-9 columns">'+
+                  '<input type="text" placeholder="Enter your e-mail address...">'+
+                '</div>'+
+                '<div class="small-3 columns">'+
+                  '<span class="postfix"><a href="./">Claim</a></span>'+
+                '</div>'+
+              '</div>'+
+            '</div>'+
+        '</div>';
+
+      $('#myModal').html(output).foundation('reveal', 'open');
+    }
   }
 
   //a function to return the number of list items in a row (good for responsive lists)

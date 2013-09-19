@@ -397,3 +397,13 @@ h2 .collection_action {
 ////////////////////////
 // end backpack proto //
 ////////////////////////
+
+////////////////////////
+// beg openbadger  /////
+////////////////////////
+#openbadger .badge-thumbs.vertical > li {
+	margin-bottom:0px;
+}
+#openbadger .badge-thumbs.vertical li:nth-child(even) > a {
+	background-color:rgb(240, 238, 224);
+}

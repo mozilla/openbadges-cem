@@ -7585,3 +7585,13 @@ h2 .collection_action {
   background-color: #51dcf8;
   border-color: #3cbad8;
 }
+
+/* line 404, ../sass/app.scss */
+#openbadger .badge-thumbs.vertical > li {
+  margin-bottom: 0px;
+}
+
+/* line 407, ../sass/app.scss */
+#openbadger .badge-thumbs.vertical li:nth-child(even) > a {
+  background-color: #f0eee0;
+}
