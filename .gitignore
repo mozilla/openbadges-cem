@@ -1,0 +1,14 @@
+.#*
+*log
+*~
+*#*
+*.rpm
+*.tar.gz
+*.pid
+config.env
+local.env
+
+/notes
+/docs
+/node_modules
+/bower_components
