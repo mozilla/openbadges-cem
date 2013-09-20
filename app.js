@@ -5,6 +5,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const nunjucks = require('nunjucks');
+const sass = require('node-sass');
 const util = require('util'); // temporary for debugging
 
 const port = parseInt(process.env.PORT || '3000');
@@ -18,9 +19,17 @@ const TOKEN_LIFETIME = process.env['OPENBADGER_TOKEN_LIFETIME'] || 10000;
 
 var openbadger = require('openbadger-client')(ENDPOINT, JWT_SECRET);
 
+app.use(sass.middleware({
+  root: path.join(__dirname, 'bower_components'),
+  src: 'foundation/scss',
+  dest: 'foundation/css',
+  debug: true
+}));
+
 app.use(express.compress());
 app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
 
 app.get('/', function(req, res, next) {
   res.send(200, 'hi there, <a href="/claim">claim</a> or <a href="/badges">badges</a> or <a href="/award">award</a>.'); }

@@ -1,11 +1,86 @@
-<html>
-<head>
-<title>aw yeah badges</title>
-</head>
-<body>
-<pre>
-{% for badge in badges %}
-hi {{ badge.name }}
-{% endfor %}
-</pre>
-</body>
+{% extends "layout.html" %}
+{% block title %}CEM Badges{% endblock %}
+{% block body %}
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="row">
+            <div class="large-8 small-6 columns">
+              <h2 class="title">CEM Badges</h2>
+            </div>
+            <div class="large-4 small-6 columns">
+              <div class="row collapse">
+                  <a class="small button claimtoggle" style="margin-bottom: 0px; margin-top: 1.5em; float: right;">Have a claim code?</a>
+                  <div class="claimtoggle" style="display: none; margin-top: 1.3em; float: right;">
+                    <div class="small-9 columns">
+                      <input placeholder="Enter a claim code..." type="text">
+                    </div>
+                    <div class="small-3 columns">
+                      <span class="postfix"><a href="#" data-reveal-id="myModal">Claim</a></span>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
+         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad 
+         minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
+         ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
+         voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <h3>Peer Badges</h3>
+      <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
+        {% for badge in badges %}{% if loop.index0 < 8 %}
+        <li>
+          <a class="badgethumb bgiv" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
+          <span style="top: 150px;" class="detail">
+              <span class="title">{{ badge.name }}</span>
+              <span class="content">{{ badge.description }}</span>
+            </span>
+          </a>
+        </li>
+        {% endif %}{% endfor %}
+      </ul>
+      <h3>Call to Action Badges</h3>
+      <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
+        {% for badge in badges %}{% if loop.index0 >= 8 and loop.index0 < 16 %}
+        <li>
+          <a class="badgethumb bapp" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
+          <span style="top: 150px;" class="detail">
+            <span class="title">{{ badge.name }}</span>
+            <span class="content">{{ badge.description }}</span>
+          </span>
+            </a>
+        </li>
+        {% endif %}{% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- hastily added to prototype, should be generated in js -->
+  <div id="myModal" class="reveal-modal">
+    <div class="fullbadge">
+      <h3>You've received Some Badge!</h3><img src="/img/badgehash-x-l.png">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
+         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
+         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+         commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
+         velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
+         occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+         mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, 
+         consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+         et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+         exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <div class="large-6 columns" style="padding:0 0 0 0;">
+          <div class="row collapse">
+      
+            <div class="small-9 columns">
+              <input value="chr" placeholder="Enter your e-mail address..." type="text">
+            </div>
+            <div class="small-3 columns">
+              <span class="postfix"><a href="#">Claim</a></span>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}
