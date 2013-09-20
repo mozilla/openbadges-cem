@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta http-equiv="content-type" content="text/html">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="/foundation/css/normalize.css" rel="stylesheet" >
+    <link href="/foundation/css/foundation.css" rel="stylesheet" >
+    <link href="/css/css.css" rel="stylesheet" type="text/css">
+    <script src="/foundation/js/vendor/custom.modernizr.js"></script>
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <div class="full upper">
+      <div class="row">
+        <span>Helping Educators Thrive<br>in a Connected World</span>
+      </div>
+    </div>
+    <div class="full lower"></div>
+    
+    <div class="row nav">
+      <div class="large-12 columns">
+        <nav class="top-bar" style="">
+              <ul class="title-area">
+            <!-- Title Area -->
+                <li class="name">
+
+                </li>
+                   <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <li class="toggle-topbar menu-icon"><a href=""><span>Menu</span></a></li>
+          </ul>
+
+                  
+          
+        <section class="top-bar-section">
+            <ul class="left">
+              <li class=""><a href="#">Home</a></li>
+              <li class=""><a href="#">Badges</a></li>
+              <li class=""><a href="#">Participate</a></li>
+              <li class=""><a href="#">Resources</a></li>
+            </ul>
+          </section></nav>
+      </div>
+    </div>
+
+    {% block body %}{% endblock %}
+
+    <script>
+    document.write('<script src=' +
+    ('__proto__' in {} ? '/foundation/js/vendor/zepto' : '/foundation/js/vendor/jquery') +
+    '.js><\/script>')
+    </script>
+    
+    <script src="/foundation/js/foundation/foundation.abide.js"></script>
+    <script src="/foundation/js/foundation/foundation.alerts.js"></script>
+    <script src="/foundation/js/foundation/foundation.clearing.js"></script>
+    <script src="/foundation/js/foundation/foundation.cookie.js"></script>
+    <script src="/foundation/js/foundation/foundation.dropdown.js"></script>
+    <script src="/foundation/js/foundation/foundation.forms.js"></script>
+    <script src="/foundation/js/foundation/foundation.interchange.js"></script>
+    <script src="/foundation/js/foundation/foundation.joyride.js"></script>
+    <script src="/foundation/js/foundation/foundation.js"></script>
+    <script src="/foundation/js/foundation/foundation.magellan.js"></script>
+    <script src="/foundation/js/foundation/foundation.orbit.js"></script>
+    <script src="/foundation/js/foundation/foundation.placeholder.js"></script>
+    <script src="/foundation/js/foundation/foundation.reveal.js"></script>
+    <script src="/foundation/js/foundation/foundation.section.js"></script>
+    <script src="/foundation/js/foundation/foundation.tooltips.js"></script>
+    <script src="/foundation/js/foundation/foundation.topbar.js"></script>
+    
+    <script>
+      $(document).foundation();
+    </script>
+
+    <script src="/js/jquery.timeago.js"></script>
+    <script src="/js/backpack.js"></script>
+  </body>
+</html>
