@@ -31,7 +31,7 @@
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
         {% for badge in badges %}{% if loop.index0 < 8 %}
         <li>
-          <a class="badgethumb bgiv" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
+          <a class="badgethumb bgiv {{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
           <span style="top: 150px;" class="detail">
               <span class="title">{{ badge.name }}</span>
               <span class="content">{{ badge.description }}</span>
@@ -44,7 +44,7 @@
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
         {% for badge in badges %}{% if loop.index0 >= 8 and loop.index0 < 16 %}
         <li>
-          <a class="badgethumb bapp" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
+          <a class="badgethumb bapp {{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
           <span style="top: 150px;" class="detail">
             <span class="title">{{ badge.name }}</span>
             <span class="content">{{ badge.description }}</span>
