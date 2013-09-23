@@ -42,6 +42,21 @@ app.get('/badges', function(req, res, next) {
   });
 });
 
+app.get('/badge/:shortname', function(req, res, next) {
+  var shortname = req.params.shortname;
+  openbadger.getBadge(shortname, function(err, data) {
+    if (err)
+      return res.send(500, { status: 'error', error: err } );
+
+    var badge = data.badge;
+
+    if (!badge)
+      return res.send(404);
+
+    return res.send(200, { badge: badge });
+  });
+});
+
 app.get('/claim', function(req, res, next) {
   if (req.query && req.query.code) {
     res.send(200, "you want to claim badge " + req.query.code);

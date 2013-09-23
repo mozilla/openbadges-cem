@@ -99,20 +99,20 @@ $(document).ready(function() {
   //a function to generate the dropdown BadgeUI from the clicked badge hash
   function makeUI(element) {
     var what = 'badge'; //there may be other UIs to make in the future
-    var hash = element.attr('class').split(' ')[1];
-    var type = element.attr('class').split(' ')[2];
+    var type = element.attr('class').split(' ')[1];
+    var shortname = element.attr('class').split(' ')[2];
 
-    console.log('making a ' + what + ' ui for : ' + hash);
+    console.log('making a ' + what + ' ui for : ' + shortname);
     var output = '' +
     '<div class="' + what + 'ui ui">' +
     ' <ul>';
 
       if(what == 'badge') {
-        if(type == 'bgiv') { output += '<li><a class="badge_action bgiv ' + hash + ' button small" href="#">Give</a></li>' }
+        if(type == 'bgiv') { output += '<li><a class="badge_action bgiv ' + shortname + ' button small" href="#">Give</a></li>' }
           else {
-             output += '<li><a class="badge_action bapp ' + hash + ' button small" href="#">Apply</a></li>';
+             output += '<li><a class="badge_action bapp ' + shortname + ' button small" href="#">Apply</a></li>';
           }
-        output += '<li><a class="badge_action bdet ' + hash + '" href="#">Detail</a></li>';
+        output += '<li><a class="badge_action bdet ' + shortname + '" href="#">Detail</a></li>';
 
       } else {
         //future UIs to go here
@@ -130,19 +130,19 @@ $(document).ready(function() {
   function badgeAction(element) {
 
   var action = element.attr('class').split(' ')[1];
-  var hash = element.attr('class').split(' ')[2];
+  var shortname = element.attr('class').split(' ')[2];
 
   console.log('action is : ' + action);
-  console.log('target is : ' + hash);
+  console.log('target is : ' + shortname);
 
   if (action == 'bdel') {
     if((element.parents('.collection').length) > 0) {
 
       var parent = element.parents('.collection')[0];
-      makeAlert('Are you sure you want to delete ' + $('.' + hash + ' .title').html() + ' from ' + $(parent).find('.title').html() + '?','alert');
+      makeAlert('Are you sure you want to delete ' + $('.' + shortname + ' .title').html() + ' from ' + $(parent).find('.title').html() + '?','alert');
     
     } else {
-    makeAlert('Are you sure you want to delete ' + $('.' + hash + ' .title').html() + '?','alert');
+    makeAlert('Are you sure you want to delete ' + $('.' + shortname + ' .title').html() + '?','alert');
   }
     } else if (action == 'bdet') {
       makeModal(element);
@@ -167,7 +167,7 @@ $(document).ready(function() {
   //a function to get badge details and display them in a modal
   //display modal to the left,right,or over the list itself depending on circumstances
   function makeModal(element) {
-    var hash = element.attr('class').split(' ')[2],
+    var shortname = element.attr('class').split(' ')[2],
     elemPosition = element.parent().offset().left,
     bodyWidth = $('body').offset().width,
     parentUL;
@@ -205,28 +205,30 @@ $(document).ready(function() {
       console.log("no idea how to display modal");
     }
 
-  if (element.is('.bdet')) {
-    var details = retrieveBadge(element.attr('class').split(' ')[2]);
-  }
-  else if (element.is('.bgiv')) {
-    var details = retrieveGive(element.attr('class').split(' ')[2]);
-  }
-  else if (element.is('.bapp')) {
-    var details = retrieveApply(element.attr('class').split(' ')[2]);
-  } else {
-    console.log('FATAL MODAL ERROR');
-  }
-    var close = $('<a href="#" class="close">×</a>').click(function(){$('#badge_modal').remove();return false});
-    var inner = $('<div style="top:' + ypos + 'px;left:' + xpos + 'px;width:' + width + 'px;min-height:' + height + 'px;" id="badge_modal_inner"></div>');
-    var outer = $('<div id="badge_modal"></div>');
+    function finishModal(details) {
+      var close = $('<a href="#" class="close">×</a>').click(function(){$('#badge_modal').remove();return false});
+      var inner = $('<div style="top:' + ypos + 'px;left:' + xpos + 'px;width:' + width + 'px;min-height:' + height + 'px;" id="badge_modal_inner"></div>');
+      var outer = $('<div id="badge_modal"></div>');
 
-    outer.append(inner.append(details,close));
-    
-    if($('#badge_modal').length != 0) {
-      $('#badge_modal').remove();
+      outer.append(inner.append(details,close));
+
+      if($('#badge_modal').length != 0) {
+        $('#badge_modal').remove();
+      }
+      outer.appendTo('body').fadeIn('fast');
     }
-    outer.appendTo('body').fadeIn('fast');
 
+    if (element.is('.bdet')) {
+      return retrieveBadge(shortname, finishModal);
+    }
+    else if (element.is('.bgiv')) {
+      return retrieveGive(shortname, finishModal);
+    }
+    else if (element.is('.bapp')) {
+      return retrieveApply(shortname, finishModal);
+    } else {
+      console.log('FATAL MODAL ERROR');
+    }
   }
 
   //a function to return the number of list items in a row (good for responsive lists)
@@ -268,38 +270,48 @@ function retrieveBadge(hash) {
   return output;
 }
 
-function retrieveApply(hash) {
-
-  var output = '<div class="fullbadge">' +
-  '<h3>Apply for Some Badge</h3>' +
-  '<img src="' + docroot + '/img/badge/badgehash-x-l.png">' +
-  '<h4>Check out the criteria for this badge before you begin:</h4>' +
-  '<ul><li>Some criteria</li><li>Some criteria</li><li>Some criteria</li></ul>' +
-  '<h4>Tell us more about your work:</h4>' +
-  '<textarea></textarea>' +
-  '<a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>'+
-  '<br>Link: <a target=_blank href="#">http://totally-a-permalink.com/</a>'
-  '</div>';
-  return output;
+function retrieveApply(shortname, callback) {
+  $.ajax({
+    url: '/badge/' + encodeURIComponent(shortname),
+    success: function(data) {
+      var permalink = document.URL.replace(/#.*$/, "") + '#badgedetail=' +  encodeURIComponent(data.badge.shortname);
+      var output = '<div class="fullbadge">' +
+        '<h3>Apply for ' + data.badge.name + '</h3>' +
+        '<img width="200" src="' + data.badge.image + '">' +
+        '<h4>Check out the criteria for this badge before you begin:</h4>' +
+        data.badge.criteria +
+        '<h4>Tell us more about your work:</h4>' +
+        '<textarea></textarea>' +
+        '<a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>'+
+        '<br>Link: <a target=_blank href="' + permalink + '">' + permalink + '</a>'
+        '</div>';
+      callback(output);
+    }
+  });
 }
 
-function retrieveGive(hash) {
-
-  var output = '<div class="fullbadge">' +
-  '<h3>Give Some Badge to a Peer</h3>' +
-  '<img src="' + docroot + '/img/badge/badgehash-x-l.png">' +
-  '<h4>Check out the criteria for this badge before you begin:</h4>' +
-  '<ul><li>Some criteria</li><li>Some criteria</li><li>Some criteria</li></ul>' +
-  '<h4>Your E-mail:</h4>' +
-  '<input type="text">' +
-  '<h4>Their E-mail:</h4>' +  
-  '<input type="text">' +
-  '<h4>Why do they deserve this badge?:</h4>' +
-  '<textarea></textarea>' +
-  '<a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>'+
-  '<br>Link: <a target=_blank href="#">http://totally-a-permalink.com/</a>'
-  '</div>';
-  return output;
+function retrieveGive(shortname, callback) {
+  $.ajax({
+    url: '/badge/' + encodeURIComponent(shortname),
+    success: function(data) {
+      var permalink = document.URL.replace(/#.*$/, "") + '#badgedetail=' +  encodeURIComponent(data.badge.shortname);
+      var output = '<div class="fullbadge">' +
+        '<h3>Give ' + data.badge.name + ' to a Peer</h3>' +
+        '<img width="200" src="' + data.badge.image + '">' +
+        '<h4>Check out the criteria for this badge before you begin:</h4>' +
+        data.badge.criteria +
+        '<h4>Your E-mail:</h4>' +
+        '<input type="text">' +
+        '<h4>Their E-mail:</h4>' +
+        '<input type="text">' +
+        '<h4>Why do they deserve this badge?:</h4>' +
+        '<textarea></textarea>' +
+        '<a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>'+
+        '<br>Link: <a target=_blank href="' + permalink + '">' + permalink + '</a>'
+        '</div>';
+      callback(output);
+    }
+  });
 }
 
 function dateFromUnix(timestamp) {
