@@ -6,8 +6,9 @@ $(document).ready(function() {
 
   $.timeago.settings.allowFuture = true;
 
-  if (hashParams.hasOwnProperty('badgedetail')) { 
-    makeModal($('a.'+hashParams.badgedetail));
+  if (hashParams.hasOwnProperty('badgedetail')) {
+    var element = $('a[data-shortname="' + hashParams.badgedetail +'"]');
+    makeModal($(element));
   }
 
   //the click function for lists of badge thumbnails
@@ -180,6 +181,7 @@ $(document).ready(function() {
         $('#badge_modal').remove();
       }
       outer.appendTo('body').fadeIn('fast');
+      window.scrollTo(0,ypos);
     }
 
     if (element.is('.bdet')) {
