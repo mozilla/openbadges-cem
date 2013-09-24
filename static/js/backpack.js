@@ -6,8 +6,9 @@ $(document).ready(function() {
 
   $.timeago.settings.allowFuture = true;
 
-  if (hashParams.hasOwnProperty('badgedetail')) { 
-    makeModal($('a.'+hashParams.badgedetail));
+  if (hashParams.hasOwnProperty('badgedetail')) {
+    var element = $('a[data-shortname="' + hashParams.badgedetail +'"]');
+    makeModal($(element));
   }
 
   //the click function for lists of badge thumbnails
@@ -83,7 +84,6 @@ $(document).ready(function() {
     collectionAction(target);
     if(!target.hasClass('csha')) return false;
   } else if (target.hasClass('toggle')) {
-    //console.log(hashOrAction);
     $('#'+hashOrAction).fadeToggle();
     return false;
   } else if (target.hasClass('claimtoggle')) {
@@ -91,68 +91,36 @@ $(document).ready(function() {
      $('div.claimtoggle').fadeIn('fast');
     });
     return false;
-  } else {
-    console.log('some other link');
   }
   });
 
   //a function to generate the dropdown BadgeUI from the clicked badge hash
   function makeUI(element) {
-    var what = 'badge'; //there may be other UIs to make in the future
-    var type = element.attr('class').split(' ')[1];
-    var shortname = element.attr('class').split(' ')[2];
+    var shortname = element.data('shortname');
 
-    console.log('making a ' + what + ' ui for : ' + shortname);
     var output = '' +
-    '<div class="' + what + 'ui ui">' +
-    ' <ul>';
+                 '<div class="badgeui ui">' +
+                 ' <ul>';
 
-      if(what == 'badge') {
-        if(type == 'bgiv') { output += '<li><a class="badge_action bgiv ' + shortname + ' button small" href="#">Give</a></li>' }
-          else {
-             output += '<li><a class="badge_action bapp ' + shortname + ' button small" href="#">Apply</a></li>';
-          }
-        output += '<li><a class="badge_action bdet ' + shortname + '" href="#">Detail</a></li>';
+    if(element.hasClass('bgiv')) {
+      output += '<li><a class="badge_action bgiv button small" data-shortname="' + shortname + '"href="#">Give</a></li>'
+    }
+    else {
+      output += '<li><a class="badge_action bapp button small" data-shortname="' + shortname + '" href="#">Apply</a></li>';
+    }
+    output += '<li><a class="badge_action bdet" data-shortname="' + shortname + '" href="#">Detail</a></li>';
 
-      } else {
-        //future UIs to go here
-      }
 
-  output += '' +
-    ' </ul>' +
-    '</div>';
+    output += '' +
+              ' </ul>' +
+              '</div>';
 
     return output;
-
   }
 
   //a function to process BadgeUI clicks (details,delete,etc.)
   function badgeAction(element) {
-
-  var action = element.attr('class').split(' ')[1];
-  var shortname = element.attr('class').split(' ')[2];
-
-  console.log('action is : ' + action);
-  console.log('target is : ' + shortname);
-
-  if (action == 'bdel') {
-    if((element.parents('.collection').length) > 0) {
-
-      var parent = element.parents('.collection')[0];
-      makeAlert('Are you sure you want to delete ' + $('.' + shortname + ' .title').html() + ' from ' + $(parent).find('.title').html() + '?','alert');
-    
-    } else {
-    makeAlert('Are you sure you want to delete ' + $('.' + shortname + ' .title').html() + '?','alert');
-  }
-    } else if (action == 'bdet') {
-      makeModal(element);
-    } else if (action == 'bgiv') {
-      makeModal(element);
-    } else if (action == 'bapp') {
-      makeModal(element);
-    } else {
-      console.log('no idea...')
-    }
+    makeModal(element);
   }
 
   //a function to create an alert box element and add to the DOM
@@ -167,7 +135,7 @@ $(document).ready(function() {
   //a function to get badge details and display them in a modal
   //display modal to the left,right,or over the list itself depending on circumstances
   function makeModal(element) {
-    var shortname = element.attr('class').split(' ')[2],
+    var shortname = element.data('shortname'),
     elemPosition = element.parent().offset().left,
     bodyWidth = $('body').offset().width,
     parentUL;
@@ -187,9 +155,6 @@ $(document).ready(function() {
     height = firstli_h,
     width = firstli_w;
 
-    console.log('element position is : ' + elemPosition);
-    console.log('body width is : ' + bodyWidth);
-
     if(numRows != 3 && numRows != 1) {
       width = ((firstli_w * 2) + 20);
       height = ((firstli_h * 2) + 20);
@@ -207,7 +172,7 @@ $(document).ready(function() {
 
     function finishModal(details) {
       var close = $('<a href="#" class="close">×</a>').click(function(){$('#badge_modal').remove();return false});
-      var inner = $('<div style="top:' + ypos + 'px;left:' + xpos + 'px;width:' + width + 'px;min-height:' + height + 'px;" id="badge_modal_inner"></div>');
+      var inner = $('<div style="top:' + ypos + 'px;left:' + xpos + 'px;width:' + width + 'px;" id="badge_modal_inner"></div>');
       var outer = $('<div id="badge_modal"></div>');
 
       outer.append(inner.append(details,close));
@@ -216,6 +181,7 @@ $(document).ready(function() {
         $('#badge_modal').remove();
       }
       outer.appendTo('body').fadeIn('fast');
+      window.scrollTo(0,ypos);
     }
 
     if (element.is('.bdet')) {
@@ -243,74 +209,29 @@ $(document).ready(function() {
             lisInRow++;   
         }
     });
-    console.log('number of lis in row : ' + lisInRow);
+
     return lisInRow;
   }
 
-//a function to retrieve full badge details - ideally via Ajax - then format for display
-function retrieveBadge(hash) {
 
-  var output = '<div class="fullbadge">' +
-  '<h3>Some Badge</h3>' +
-  '<img src="' + docroot + '/img/badge/badgehash-x-l.png">' +
-  '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>' +
-  '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>' +
-  '</div>';
-  return output;
-}
-
-function retrieveBadge(hash) {
-
-  var output = '<div class="fullbadge">' +
-  '<h3>Some Badge</h3>' +
-  '<img src="' + docroot + '/img/badge/badgehash-x-l.png">' +
-  '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>' +
-  '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>' +
-  '</div>';
-  return output;
+function retrieveBadge(shortname, callback) {
+  $.ajax({
+    url: '/badge/' + encodeURIComponent(shortname),
+    success: callback
+  });
 }
 
 function retrieveApply(shortname, callback) {
   $.ajax({
-    url: '/badge/' + encodeURIComponent(shortname),
-    success: function(data) {
-      var permalink = document.URL.replace(/#.*$/, "") + '#badgedetail=' +  encodeURIComponent(data.badge.shortname);
-      var output = '<div class="fullbadge">' +
-        '<h3>Apply for ' + data.badge.name + '</h3>' +
-        '<img width="200" src="' + data.badge.image + '">' +
-        '<h4>Check out the criteria for this badge before you begin:</h4>' +
-        data.badge.criteria +
-        '<h4>Tell us more about your work:</h4>' +
-        '<textarea></textarea>' +
-        '<a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>'+
-        '<br>Link: <a target=_blank href="' + permalink + '">' + permalink + '</a>'
-        '</div>';
-      callback(output);
-    }
+    url: '/badge/' + encodeURIComponent(shortname) + '?mode=apply',
+    success: callback
   });
 }
 
 function retrieveGive(shortname, callback) {
   $.ajax({
-    url: '/badge/' + encodeURIComponent(shortname),
-    success: function(data) {
-      var permalink = document.URL.replace(/#.*$/, "") + '#badgedetail=' +  encodeURIComponent(data.badge.shortname);
-      var output = '<div class="fullbadge">' +
-        '<h3>Give ' + data.badge.name + ' to a Peer</h3>' +
-        '<img width="200" src="' + data.badge.image + '">' +
-        '<h4>Check out the criteria for this badge before you begin:</h4>' +
-        data.badge.criteria +
-        '<h4>Your E-mail:</h4>' +
-        '<input type="text">' +
-        '<h4>Their E-mail:</h4>' +
-        '<input type="text">' +
-        '<h4>Why do they deserve this badge?:</h4>' +
-        '<textarea></textarea>' +
-        '<a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>'+
-        '<br>Link: <a target=_blank href="' + permalink + '">' + permalink + '</a>'
-        '</div>';
-      callback(output);
-    }
+    url: '/badge/' + encodeURIComponent(shortname) + '?mode=give',
+    success: callback
   });
 }
 
@@ -360,6 +281,5 @@ function getHashParams() {
 
     while (e = r.exec(q))
        hashParams[d(e[1])] = d(e[2]);
-     console.log(hashParams);
     return hashParams;
 }
