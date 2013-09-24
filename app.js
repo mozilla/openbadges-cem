@@ -47,7 +47,6 @@ app.get('/badges', function(req, res, next) {
 app.get('/badge/:shortname', function(req, res, next) {
   var shortname = req.params.shortname;
   var mode = req.query.mode;
-  console.log(req.params.mode);
   openbadger.getBadge(shortname, function(err, data) {
     if (err)
       return res.send(500, { status: 'error', error: err } );
@@ -57,9 +56,13 @@ app.get('/badge/:shortname', function(req, res, next) {
     if (!badge)
       return res.send(404);
 
-    var template = 'apply-badge.html';
+    var template = 'badge-details.html';
+
     if (mode === 'give') {
       template = 'give-badge.html';
+    }
+    else if (mode === 'apply') {
+      template = 'apply-badge.html';
     }
 
     var permalink = url.format({
