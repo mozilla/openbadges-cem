@@ -272,45 +272,15 @@ function retrieveBadge(hash) {
 
 function retrieveApply(shortname, callback) {
   $.ajax({
-    url: '/badge/' + encodeURIComponent(shortname),
-    success: function(data) {
-      var permalink = document.URL.replace(/#.*$/, "") + '#badgedetail=' +  encodeURIComponent(data.badge.shortname);
-      var output = '<div class="fullbadge">' +
-        '<h3>Apply for ' + data.badge.name + '</h3>' +
-        '<img width="200" src="' + data.badge.image + '">' +
-        '<h4>Check out the criteria for this badge before you begin:</h4>' +
-        data.badge.criteria +
-        '<h4>Tell us more about your work:</h4>' +
-        '<textarea></textarea>' +
-        '<a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>'+
-        '<br>Link: <a target=_blank href="' + permalink + '">' + permalink + '</a>'
-        '</div>';
-      callback(output);
-    }
+    url: '/badge/' + encodeURIComponent(shortname) + '?mode=apply',
+    success: callback
   });
 }
 
 function retrieveGive(shortname, callback) {
   $.ajax({
-    url: '/badge/' + encodeURIComponent(shortname),
-    success: function(data) {
-      var permalink = document.URL.replace(/#.*$/, "") + '#badgedetail=' +  encodeURIComponent(data.badge.shortname);
-      var output = '<div class="fullbadge">' +
-        '<h3>Give ' + data.badge.name + ' to a Peer</h3>' +
-        '<img width="200" src="' + data.badge.image + '">' +
-        '<h4>Check out the criteria for this badge before you begin:</h4>' +
-        data.badge.criteria +
-        '<h4>Your E-mail:</h4>' +
-        '<input type="text">' +
-        '<h4>Their E-mail:</h4>' +
-        '<input type="text">' +
-        '<h4>Why do they deserve this badge?:</h4>' +
-        '<textarea></textarea>' +
-        '<a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>'+
-        '<br>Link: <a target=_blank href="' + permalink + '">' + permalink + '</a>'
-        '</div>';
-      callback(output);
-    }
+    url: '/badge/' + encodeURIComponent(shortname) + '?mode=give',
+    success: callback
   });
 }
 
