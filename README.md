@@ -11,6 +11,8 @@ These variables should be configured in your applications environment through en
 ```
 export OPENBADGER_URL='http://localhost:8000/v2/'
 export OPENBADGER_SECRET='lecarre'
+export AESTIMIA_URL='http://localhost:9999/api/'
+export AESTIMIA_SECRET='rendell'
 export CEM_HOST='localhost:3000'
 export MANDRILL_KEY='fattington'
 ```

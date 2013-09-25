@@ -14,12 +14,19 @@ const app = express();
 const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, 'views')), {autoescape: true});
 env.express(app);
 
-const ENDPOINT = process.env['OPENBADGER_URL'];
+const OB_ENDPOINT = process.env['OPENBADGER_URL'];
 const JWT_SECRET = process.env['OPENBADGER_SECRET'];
 const TOKEN_LIFETIME = process.env['OPENBADGER_TOKEN_LIFETIME'] || 10000;
 const CEM_HOST = process.env['CEM_HOST'];
 
-var openbadger = require('openbadger-client')(ENDPOINT, JWT_SECRET);
+const AESTIMIA_ENDPOINT = process.env['AESTIMIA_URL'];
+const AESTIMIA_SECRET = process.env['AESTIMIA_SECRET'];
+
+var openbadger = require('openbadger-client')(OB_ENDPOINT, JWT_SECRET);
+var aestimia = require('aestimia-client')({
+  endpoint: AESTIMIA_ENDPOINT,
+  secret: AESTIMIA_SECRET
+});
 
 app.use(sass.middleware({
   root: path.join(__dirname, 'bower_components'),
@@ -95,6 +102,12 @@ app.get('/claim/:code', function(req, res, next) {
 });
 
 app.get('/award', function(req, res, next) { res.send(200, "award someone else a badge right here") } );
+
+// Endpoint for aestimia callbacks - can be renamed
+app.use('/aestimia', aestimia.endpoint(function(submission, next) {
+  // TO DO: send emails, update openbadger
+  next();
+}));
 
 if (!module.parent)
   app.listen(port, function(err) {
