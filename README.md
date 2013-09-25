@@ -12,6 +12,7 @@ These variables should be configured in your applications environment through en
 export OPENBADGER_URL='http://localhost:8000/v2/'
 export OPENBADGER_SECRET='lecarre'
 export CEM_HOST='localhost:3000'
+export MANDRILL_KEY='fattington'
 ```
 
 Then you can source the file like `. config.env`.
