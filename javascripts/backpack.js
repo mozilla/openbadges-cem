@@ -77,12 +77,26 @@ $(document).ready(function() {
     return false;
   } else if (target.hasClass('badgerow')){
     makeReveal(target);
-  } else if (target.hasClass('closeModal')) {
-    $('#myModal').foundation('reveal', 'close', function(){
+  } else if (target.hasClass('replaceModal')) {
+      
+      var output= ''+
+      '<div class="fullbadge">'+
+          '<h3>You\'ve accepted Some Badge!</h3><img src="/moz/cem/img/badge/badgehash-x-l.png">'+
+          '<p>Now what would you like to do with it?<br>Some description about the BackPack and stuff.</p>'+
+          '<div class="large-6 columns" style="padding:0 0 0 0;">'+
+              '<div class="row collapse">'+
+                '<div class="small-6 columns">'+
+                  '<a class="small button success radius">Accept to Backpack</a>'+
+                '</div>'+
+                '<div class="small-6 columns">'+
+                  '<a class="small button secondary radius">Do nothing about it</a>'+
+                '</div>'+
+              '</div>'+
+            '</div>'+
+        '</div>';
 
-      makeAlert('You have just received a badge!<br><br><a class="small button success radius">Accept to my Mozilla Backpack</a> <a class="small button secondary radius">Do nothing about it</a>','warning');
+      $('#myModal').html(output);
 
-    });
     return false;
   } else {
     console.log('some other link');
