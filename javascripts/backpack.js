@@ -39,7 +39,7 @@ $(document).ready(function() {
         });
       }
 
-      //for square thumbnal badges
+      //for square thumbnail badges
       if(target.parents('ul').hasClass('square')){
         if (target.hasClass('chosen')) {
           $(target).find('.detail').animate({
@@ -77,6 +77,13 @@ $(document).ready(function() {
     return false;
   } else if (target.hasClass('badgerow')){
     makeReveal(target);
+  } else if (target.hasClass('closeModal')) {
+    $('#myModal').foundation('reveal', 'close', function(){
+
+      makeAlert('You have just received a badge!<br><br><a class="small button success radius">Accept to my Mozilla Backpack</a> <a class="small button secondary radius">Do nothing about it</a>','warning');
+
+    });
+    return false;
   } else {
     console.log('some other link');
   }
