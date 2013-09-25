@@ -7181,53 +7181,49 @@ h2.title {
 
 /* line 105, ../sass/app.scss */
 .upper > div {
-  background: transparent url("../img/logo.png") no-repeat 15px 20px;
+  background: transparent url("http://edcoptwgdev.forumone.com/wp-content/themes/third-style/images/cem_logo.png") no-repeat 0 0;
   width: 100%;
   height: 100%;
 }
 
 /* line 110, ../sass/app.scss */
 .upper > div > span {
-  display: block;
-  color: #ada589;
-  border-left: 1px solid #ada589;
-  padding: 1.25em;
-  margin: 0.8em 1.25em 1.25em 200px;
+  display: none;
 }
 
-/* line 117, ../sass/app.scss */
+/* line 113, ../sass/app.scss */
 .lower {
   background-color: #f0eee0;
   border-top: 7px solid #dad8ca;
   border-bottom: 5px solid #dad8ca;
 }
 
-/* line 122, ../sass/app.scss */
+/* line 118, ../sass/app.scss */
 .row.nav {
   margin-top: -7.5em;
 }
 
-/* line 125, ../sass/app.scss */
+/* line 121, ../sass/app.scss */
 #settings > li {
   width: 100%;
 }
 
-/* line 128, ../sass/app.scss */
+/* line 124, ../sass/app.scss */
 .square.grid .content {
   font-size: 0.85em;
 }
 
-/* line 131, ../sass/app.scss */
+/* line 127, ../sass/app.scss */
 .square.grid .detail {
   padding: 0.8em;
 }
 
-/* line 134, ../sass/app.scss */
+/* line 130, ../sass/app.scss */
 .ui > ul > li > a.badge_action {
   text-align: center;
 }
 
-/* line 137, ../sass/app.scss */
+/* line 133, ../sass/app.scss */
 .ui > ul > li > a.badge_action.bdet {
   background-image: url("../img/sprite.png");
   background-repeat: no-repeat;
@@ -7235,54 +7231,54 @@ h2.title {
   height: 50px;
 }
 
-/* line 143, ../sass/app.scss */
+/* line 139, ../sass/app.scss */
 .ui {
   z-index: 2;
 }
 
-/* line 146, ../sass/app.scss */
+/* line 142, ../sass/app.scss */
 .ui li {
   list-style-type: none;
 }
 
-/* line 149, ../sass/app.scss */
+/* line 145, ../sass/app.scss */
 .ui .f-dropdown > li > a.brfc {
   float: left;
   margin-right: 1.25em;
 }
 
-/* line 153, ../sass/app.scss */
+/* line 149, ../sass/app.scss */
 .ui .f-dropdown > li > a:hover {
   text-decoration: underline;
 }
 
-/* line 156, ../sass/app.scss */
+/* line 152, ../sass/app.scss */
 .ui .f-dropdown > li hr {
   margin: 0.625em 0;
 }
 
-/* line 159, ../sass/app.scss */
+/* line 155, ../sass/app.scss */
 .ui .submenu li:hover a {
   background-color: #fff;
 }
 
-/* line 162, ../sass/app.scss */
+/* line 158, ../sass/app.scss */
 .ui .f-dropdown {
   padding-top: 0.625em;
   padding-bottom: 0.625em;
 }
 
-/* line 166, ../sass/app.scss */
+/* line 162, ../sass/app.scss */
 .ui input {
   max-width: 175px;
 }
 
-/* line 169, ../sass/app.scss */
+/* line 165, ../sass/app.scss */
 #badge_modal {
   display: none;
 }
 
-/* line 173, ../sass/app.scss */
+/* line 169, ../sass/app.scss */
 #badge_modal_inner {
   position: absolute;
   z-index: 3;
@@ -7294,7 +7290,7 @@ h2.title {
   padding: 1.25em;
 }
 
-/* line 183, ../sass/app.scss */
+/* line 179, ../sass/app.scss */
 #badge_modal_inner .close {
   position: absolute;
   top: 0;
@@ -7302,7 +7298,7 @@ h2.title {
   padding: 1.25em;
 }
 
-/* line 189, ../sass/app.scss */
+/* line 185, ../sass/app.scss */
 .alert-box {
   position: fixed;
   top: 0;
@@ -7312,22 +7308,22 @@ h2.title {
   display: none;
 }
 
-/* line 201, ../sass/app.scss */
+/* line 197, ../sass/app.scss */
 span.title {
   font-size: 1.4em;
 }
 
-/* line 204, ../sass/app.scss */
+/* line 200, ../sass/app.scss */
 .square.grid {
   position: relative;
 }
 
-/* line 207, ../sass/app.scss */
+/* line 203, ../sass/app.scss */
 .square.grid > li {
   position: relative;
 }
 
-/* line 210, ../sass/app.scss */
+/* line 206, ../sass/app.scss */
 .square.grid > li > a {
   position: relative;
   display: block;
@@ -7338,12 +7334,12 @@ span.title {
   overflow: hidden;
 }
 
-/* line 219, ../sass/app.scss */
+/* line 215, ../sass/app.scss */
 .square.grid > li > .badgethumb > span.detail {
   display: block;
 }
 
-/* line 222, ../sass/app.scss */
+/* line 218, ../sass/app.scss */
 .square.grid > li > a > span.detail {
   position: absolute;
   top: 150px;
@@ -7353,13 +7349,13 @@ span.title {
   background: rgba(240, 238, 224, 0.9);
 }
 
-/* line 230, ../sass/app.scss */
+/* line 226, ../sass/app.scss */
 .square.grid > li > .badgethumb {
   background-position: center 1.5em;
   background-repeat: no-repeat;
 }
 
-/* line 234, ../sass/app.scss */
+/* line 230, ../sass/app.scss */
 .collection-thumbs.square.grid .minithumbs {
   position: relative;
   display: block;
@@ -7368,7 +7364,7 @@ span.title {
   margin-top: 1.25em;
 }
 
-/* line 241, ../sass/app.scss */
+/* line 237, ../sass/app.scss */
 .collection-thumbs.square.grid .minithumb {
   position: absolute;
   width: 75px;
@@ -7383,30 +7379,30 @@ span.title {
   box-shadow: 0px 0px 14px rgba(50, 50, 50, 0.5);
 }
 
-/* line 254, ../sass/app.scss */
+/* line 250, ../sass/app.scss */
 .collection-thumbs.square.grid .minithumb-1 {
   top: 0px;
   left: 0px;
 }
 
-/* line 258, ../sass/app.scss */
+/* line 254, ../sass/app.scss */
 .collection-thumbs.square.grid .minithumb-2 {
   top: 25px;
   left: 50px;
 }
 
-/* line 262, ../sass/app.scss */
+/* line 258, ../sass/app.scss */
 .collection-thumbs.square.grid .minithumb-3 {
   top: 50px;
   left: 25px;
 }
 
-/* line 266, ../sass/app.scss */
+/* line 262, ../sass/app.scss */
 .square.grid > li > .badgethumb > span.detail > span {
   display: block;
 }
 
-/* line 269, ../sass/app.scss */
+/* line 265, ../sass/app.scss */
 .square.grid .ui {
   display: none;
   position: absolute;
@@ -7416,7 +7412,7 @@ span.title {
   padding: 0 0.625em;
 }
 
-/* line 277, ../sass/app.scss */
+/* line 273, ../sass/app.scss */
 .grid .ui > ul {
   margin-left: 0px;
   display: inline-block;
@@ -7429,7 +7425,7 @@ span.title {
   margin-top: -1px;
 }
 
-/* line 288, ../sass/app.scss */
+/* line 284, ../sass/app.scss */
 .grid .ui > ul > li {
   margin-left: 0px;
   float: left;
@@ -7438,57 +7434,57 @@ span.title {
   text-align: center;
 }
 
-/* line 295, ../sass/app.scss */
+/* line 291, ../sass/app.scss */
 .grid .ui > ul > li > a {
   margin-top: 1.248em;
 }
 
-/* line 298, ../sass/app.scss */
+/* line 294, ../sass/app.scss */
 .grid .ui > ul > li > a.bdet {
   display: block;
   margin-top: inherit;
 }
 
-/* line 303, ../sass/app.scss */
+/* line 299, ../sass/app.scss */
 .badge_action.bdel,
 .collection_action.cdel {
   background-position: center 0px;
 }
 
-/* line 306, ../sass/app.scss */
+/* line 302, ../sass/app.scss */
 .badge_action.bcol {
   background-position: center -267px;
 }
 
-/* line 310, ../sass/app.scss */
+/* line 306, ../sass/app.scss */
 .badge_action.bdet,
 .collection_action.cdet {
   background-position: center -200px;
 }
 
-/* line 313, ../sass/app.scss */
+/* line 309, ../sass/app.scss */
 .collection_action.csha {
   background-position: center -134px;
 }
 
-/* line 316, ../sass/app.scss */
+/* line 312, ../sass/app.scss */
 .collection_action.cedi {
   background-position: center -66px;
 }
 
-/* line 319, ../sass/app.scss */
+/* line 315, ../sass/app.scss */
 .collections .badge-thumbs {
   margin-left: 0px;
 }
 
-/* line 322, ../sass/app.scss */
+/* line 318, ../sass/app.scss */
 .badge-thumbs.vertical > li {
   list-style-type: none;
   margin-bottom: 0.625em;
   position: relative;
 }
 
-/* line 327, ../sass/app.scss */
+/* line 323, ../sass/app.scss */
 .badge-thumbs.vertical > li > .badgethumb {
   background-position: 12px center;
   background-repeat: no-repeat;
@@ -7497,19 +7493,19 @@ span.title {
   min-height: 90px;
 }
 
-/* line 334, ../sass/app.scss */
+/* line 330, ../sass/app.scss */
 .badge-thumbs.vertical > li > .badgethumb > span {
   margin-left: 75px;
   padding-top: 0.625em;
   padding-bottom: 0.625em;
 }
 
-/* line 339, ../sass/app.scss */
+/* line 335, ../sass/app.scss */
 .badge-thumbs.vertical > li > .badgethumb span {
   display: block;
 }
 
-/* line 343, ../sass/app.scss */
+/* line 339, ../sass/app.scss */
 .badge-thumbs.vertical .ui {
   width: inherit;
   position: absolute;
@@ -7521,40 +7517,40 @@ span.title {
   padding-right: 0.625em;
 }
 
-/* line 353, ../sass/app.scss */
+/* line 349, ../sass/app.scss */
 .badge-thumbs.vertical .ui > ul {
   border-radius: 2px;
   border: 1px solid #e5e5e5;
 }
 
-/* line 357, ../sass/app.scss */
+/* line 353, ../sass/app.scss */
 .badge-thumbs.vertical > li > .badgethumb > .detail > .title {
   line-height: 2;
 }
 
-/* line 360, ../sass/app.scss */
+/* line 356, ../sass/app.scss */
 .fullbadge img {
   float: right;
   padding: 1.25em;
 }
 
-/* line 364, ../sass/app.scss */
+/* line 360, ../sass/app.scss */
 .fullbadge p {
   line-height: 1.25em;
 }
 
-/* line 367, ../sass/app.scss */
+/* line 363, ../sass/app.scss */
 .fullbadge ul {
   list-style-position: inside;
 }
 
-/* line 370, ../sass/app.scss */
+/* line 366, ../sass/app.scss */
 .collection_action {
   background-repeat: no-repeat;
   background-image: url("../img/sprite.png");
 }
 
-/* line 374, ../sass/app.scss */
+/* line 370, ../sass/app.scss */
 .collection_action {
   height: 40px;
   display: block;
@@ -7563,40 +7559,40 @@ span.title {
   width: 30px;
 }
 
-/* line 381, ../sass/app.scss */
+/* line 377, ../sass/app.scss */
 h2 .collection_action {
   float: right;
   margin-top: 8px;
 }
 
-/* line 386, ../sass/app.scss */
+/* line 382, ../sass/app.scss */
 .logged-out.public .square.grid > li > p.badgethumb {
   background-color: #fff;
 }
 
-/* line 389, ../sass/app.scss */
+/* line 385, ../sass/app.scss */
 .bapp.button {
   background-color: #f5a300;
   border-color: #da8506;
 }
 
-/* line 393, ../sass/app.scss */
+/* line 389, ../sass/app.scss */
 .bgiv.button {
   background-color: #51dcf8;
   border-color: #3cbad8;
 }
 
-/* line 404, ../sass/app.scss */
+/* line 400, ../sass/app.scss */
 #openbadger .badge-thumbs.vertical > li {
   margin-bottom: 0px;
 }
 
-/* line 407, ../sass/app.scss */
+/* line 403, ../sass/app.scss */
 #openbadger .badge-thumbs.vertical li:nth-child(even) > a {
   background-color: #f0eee0;
 }
 
-/* line 410, ../sass/app.scss */
+/* line 406, ../sass/app.scss */
 #openbadger textarea {
   min-height: 100px;
 }
