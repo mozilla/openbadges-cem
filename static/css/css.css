@@ -74,18 +74,14 @@ h2.title {
 
 /* line 105, ../sass/app.scss */
 .upper > div {
-  background: transparent url("../img/logo.png") no-repeat 15px 20px;
+  background: transparent url("http://edcoptwgdev.forumone.com/wp-content/themes/third-style/images/cem_logo.png") no-repeat 0 0;
   width: 100%;
   height: 100%;
 }
 
 /* line 110, ../sass/app.scss */
 .upper > div > span {
-  display: block;
-  color: #ada589;
-  border-left: 1px solid #ada589;
-  padding: 1.25em;
-  margin: 0.8em 1.25em 1.25em 200px;
+  display: none;
 }
 
 /* line 117, ../sass/app.scss */
