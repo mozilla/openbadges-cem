@@ -20,6 +20,10 @@ $(document).ready(function() {
     if (target.hasClass('badgethumb')) { ui = 'badge'; } 
     else if (target.hasClass('collectionthumb')) { ui = 'collection'; }
     
+    //close reveal
+    if (target.hasClass('closereveal')) {
+      $('#myModal').foundation('reveal', 'close');
+    }
     //Display badge content and BadgeUI for clicked badge
     if (ui != 0) {
 
@@ -86,10 +90,10 @@ $(document).ready(function() {
           '<div class="large-6 columns" style="padding:0 0 0 0;">'+
               '<div class="row collapse">'+
                 '<div class="small-6 columns">'+
-                  '<a class="small button success radius">Accept to Backpack</a>'+
+                  '<a class="badge_action babp badgehash-x small button success radius closereveal">Accept to Backpack</a>'+
                 '</div>'+
                 '<div class="small-6 columns">'+
-                  '<a class="small button secondary radius">Do nothing about it</a>'+
+                  '<a class="small button secondary radius closereveal">Do nothing about it</a>'+
                 '</div>'+
               '</div>'+
             '</div>'+
@@ -98,9 +102,11 @@ $(document).ready(function() {
       $('#myModal').html(output);
 
     return false;
+  } else if (target.hasClass('replaceModal')) {
   } else {
     console.log('some other link');
   }
+
   });
 
   //a function to generate the dropdown BadgeUI from the clicked badge hash
@@ -157,6 +163,8 @@ $(document).ready(function() {
       makeModal(element);
     } else if (action == 'bapp') {
       makeModal(element);
+    } else if (action == 'babp') {
+      acceptBadge(hash);
     } else {
       console.log('no idea...')
     }
@@ -334,6 +342,10 @@ function retrieveGive(hash) {
   '<br>Link: <a target=_blank href="http://proto.ballard.is'+docroot+'/'+'#badgedetail='+hash+'">http://proto.ballard.is/'+docroot+'/'+'#badgedetail='+hash+'</a>'
   '</div>';
   return output;
+}
+
+function acceptBadge(hash) {
+  console.log('accept '+ hash +' badge to backpack');
 }
 
 function dateFromUnix(timestamp) {
