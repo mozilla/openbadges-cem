@@ -76,22 +76,30 @@ $(document).ready(function() {
 
       }
     return false;
-  //Perform action based on clicked Badge UI item
-  } else if (target.hasClass('badge_action')) {
-    badgeAction(target);
-    if(!target.hasClass('bcol')) return false;
-  } else if (target.hasClass('collection_action')) {
-    collectionAction(target);
-    if(!target.hasClass('csha')) return false;
-  } else if (target.hasClass('toggle')) {
-    $('#'+hashOrAction).fadeToggle();
-    return false;
-  } else if (target.hasClass('claimtoggle')) {
-    $(this).fadeOut('fast', function(){
-     $('div.claimtoggle').fadeIn('fast');
-    });
-    return false;
-  }
+    //Perform action based on clicked Badge UI item
+    }
+    else if (target.hasClass('badge_action')) {
+      badgeAction(target);
+      if(!target.hasClass('bcol')) return false;
+    }
+    else if (target.hasClass('collection_action')) {
+      collectionAction(target);
+      if(!target.hasClass('csha')) return false;
+    }
+    else if (target.hasClass('toggle')) {
+      $('#'+hashOrAction).fadeToggle();
+      return false;
+    }
+    else if (target.hasClass('claimtoggle')) {
+      $(this).fadeOut('fast', function(){
+        $('div.claimtoggle').fadeIn('fast');
+      });
+
+      return false;
+    }
+    else if (target.hasClass('claimbutton')) {
+      claimAction();
+    }
   });
 
   //a function to generate the dropdown BadgeUI from the clicked badge hash
@@ -116,6 +124,23 @@ $(document).ready(function() {
               '</div>';
 
     return output;
+  }
+
+  function claimAction() {
+    var code = $('#input-code').val(); //'ewqb-m76p-dxbv-7ysq';
+    var modal = $('#claim-modal');
+    var error = $('#claim-error');
+    error.html('&nbsp');
+    $.ajax({
+      url: '/claim/' + encodeURIComponent(code),
+      success: function(details) {
+        modal.html(details);
+        modal.foundation('reveal', 'open');
+      },
+      error: function() {
+        error.html('Claim code not found');
+      }
+    });
   }
 
   //a function to process BadgeUI clicks (details,delete,etc.)

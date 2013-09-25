@@ -8,14 +8,17 @@
               <h2 class="title">CEM Badges</h2>
             </div>
             <div class="large-4 small-6 columns">
+              <div id="claim-error" class="row collapse" style="text-align:left; margin-top: 0.5em; color:red">
+                &nbsp
+              </div>
               <div class="row collapse">
-                  <a class="small button claimtoggle" style="margin-bottom: 0px; margin-top: 1.5em; float: right;">Have a claim code?</a>
-                  <div class="claimtoggle" style="display: none; margin-top: 1.3em; float: right;">
+                  <a class="small button claimtoggle" style="margin-bottom: 0px; margin-top: 0.5em; float: right;">Have a claim code?</a>
+                  <div class="claimtoggle" style="display: none; margin-top: 0.3em;">
                     <div class="small-9 columns">
-                      <input placeholder="Enter a claim code..." type="text">
+                      <input id="input-code" placeholder="Enter a claim code..." type="text">
                     </div>
                     <div class="small-3 columns">
-                      <span class="postfix"><a href="#" data-reveal-id="myModal">Claim</a></span>
+                      <span class="postfix"><a class="claimbutton" href="#">Claim</a></span>
                     </div>
                 </div>
               </div>
@@ -57,30 +60,6 @@
   </div>
 
   <!-- hastily added to prototype, should be generated in js -->
-  <div id="myModal" class="reveal-modal">
-    <div class="fullbadge">
-      <h3>You've received Some Badge!</h3><img src="/img/badgehash-x-l.png">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
-         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
-         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-         commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
-         velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
-         occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-         mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, 
-         consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-         et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-         exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <div class="large-6 columns" style="padding:0 0 0 0;">
-          <div class="row collapse">
-      
-            <div class="small-9 columns">
-              <input value="chr" placeholder="Enter your e-mail address..." type="text">
-            </div>
-            <div class="small-3 columns">
-              <span class="postfix"><a href="#">Claim</a></span>
-            </div>
-          </div>
-        </div>
-    </div>
+  <div id="claim-modal" class="reveal-modal small" data-reveal-ajax="true">
   </div>
 {% endblock %}

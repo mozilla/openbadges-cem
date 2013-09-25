@@ -84,6 +84,24 @@ app.get('/claim', function(req, res, next) {
   };
 });
 
+app.get('/claim/:code', function(req, res, next) {
+  var code = req.params.code;
+
+  openbadger.getBadgeFromCode( { code: code, user: false }, function(err, data) {
+    if (err)
+      return res.send(500, { status: 'error', error: err } );
+
+    var badge = data.badge;
+
+    if (!badge)
+      return res.send(404);
+
+    var template = 'claim-badge.html';
+
+    return res.render(template, { badge: badge });
+  });
+});
+
 app.get('/award', function(req, res, next) { res.send(200, "award someone else a badge right here") } );
 
 if (!module.parent)
