@@ -138,7 +138,7 @@ $(document).ready(function() {
         modal.foundation('reveal', 'open');
       },
       error: function() {
-        error.html('Claim code not found');
+        error.html("We don't recognize that claim code. Please try again.");
       }
     });
   }
