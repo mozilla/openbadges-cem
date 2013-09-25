@@ -7,6 +7,7 @@ const express = require('express');
 const nunjucks = require('nunjucks');
 const sass = require('node-sass');
 const util = require('util'); // temporary for debugging
+const url = require('url');
 
 const port = parseInt(process.env.PORT || '3000');
 const app = express();
@@ -16,6 +17,7 @@ env.express(app);
 const OB_ENDPOINT = process.env['OPENBADGER_URL'];
 const JWT_SECRET = process.env['OPENBADGER_SECRET'];
 const TOKEN_LIFETIME = process.env['OPENBADGER_TOKEN_LIFETIME'] || 10000;
+const CEM_HOST = process.env['CEM_HOST'];
 
 const AESTIMIA_ENDPOINT = process.env['AESTIMIA_URL'];
 const AESTIMIA_SECRET = process.env['AESTIMIA_SECRET'];
@@ -46,6 +48,38 @@ app.get('/badges', function(req, res, next) {
   openbadger.getAllBadges(function(err, badges) {
     if (err) res.send(500, err);
     res.render('badges.html', { badges: badges.badges });
+  });
+});
+
+app.get('/badge/:shortname', function(req, res, next) {
+  var shortname = req.params.shortname;
+  var mode = req.query.mode;
+  openbadger.getBadge(shortname, function(err, data) {
+    if (err)
+      return res.send(500, { status: 'error', error: err } );
+
+    var badge = data.badge;
+
+    if (!badge)
+      return res.send(404);
+
+    var template = 'badge-details.html';
+
+    if (mode === 'give') {
+      template = 'give-badge.html';
+    }
+    else if (mode === 'apply') {
+      template = 'apply-badge.html';
+    }
+
+    var permalink = url.format({
+        protocol: 'http',
+        host: CEM_HOST,
+        pathname: '/badges',
+        hash: 'badgedetail=' + badge.shortname
+      });
+
+    return res.render(template, { badge: badge, permalink: permalink });
   });
 });
 
