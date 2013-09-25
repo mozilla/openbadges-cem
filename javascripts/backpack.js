@@ -9,6 +9,9 @@ $(document).ready(function() {
   if (hashParams.hasOwnProperty('badgedetail')) { 
     makeModal($('a.'+hashParams.badgedetail));
   }
+  if (hashParams.hasOwnProperty('badgeaccept')) { 
+    makeReveal(makeBadgeAcceptance(hashParams.badgedetail));
+  }
 
   //the click function for lists of badge thumbnails
   $( 'body' ).delegate( "a", "click", function() {
@@ -83,21 +86,7 @@ $(document).ready(function() {
     makeReveal(target);
   } else if (target.hasClass('replaceModal')) {
       
-      var output= ''+
-      '<div class="fullbadge">'+
-          '<h3>You\'ve accepted Some Badge!</h3><img src="/moz/cem/img/badge/badgehash-x-l.png">'+
-          '<p>Now what would you like to do with it?<br>Some description about the BackPack and stuff.</p>'+
-          '<div class="large-6 columns" style="padding:0 0 0 0;">'+
-              '<div class="row collapse">'+
-                '<div class="small-6 columns">'+
-                  '<a class="badge_action babp badgehash-x small button success radius closereveal">Accept to Backpack</a>'+
-                '</div>'+
-                '<div class="small-6 columns">'+
-                  '<a class="small button secondary radius closereveal">Do nothing about it</a>'+
-                '</div>'+
-              '</div>'+
-            '</div>'+
-        '</div>';
+      var output= makeBadgeAcceptance('badgehash-x');
 
       $('#myModal').html(output);
 
@@ -244,29 +233,8 @@ $(document).ready(function() {
 
   }
 
-  function makeReveal(element){
-    if(element.is('.reveal')) {
-      var output = ''+
-        '<div class="fullbadge">'+
-          '<h3><input type="text" value="Some Badge"></h3>'+
-          '<div class="row">'+
-          '<div class="large-6 columns">'+
-          '<label>Description</label>'+
-          '<textarea>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </textarea>'+
-          '<label>Criteria</label>'+
-          '<textarea>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </textarea>'+
-          '</div>'+
-          '<div class="large-6 columns">'+
-          '<img src="/moz/cem/img/badge/badgehash-x-l.png">'+
-          '</div>'+
-          '</div>'+
-          '<div class="large-6 columns" style="padding:0 0 0 0;">'+
-              '<a href="./admin.html" class="button medium">Submit</a>'+
-            '</div>'+
-        '</div>';
-
-      $('#myModal').html(output).foundation('reveal', 'open');
-    }
+  function makeReveal(content){
+    $('#myModal').html(content).foundation('reveal', 'open');
   }
 
   //a function to return the number of list items in a row (good for responsive lists)
@@ -342,6 +310,25 @@ function retrieveGive(hash) {
   '<br>Link: <a target=_blank href="http://proto.ballard.is'+docroot+'/'+'#badgedetail='+hash+'">http://proto.ballard.is/'+docroot+'/'+'#badgedetail='+hash+'</a>'
   '</div>';
   return output;
+}
+
+function makeBadgeAcceptance(hash) {
+   var output= ''+
+      '<div class="fullbadge">'+
+          '<h3>You\'ve accepted Some Badge!</h3><img src="/moz/cem/img/badge/badgehash-x-l.png">'+
+          '<p>Now what would you like to do with it?<br>Some description about the BackPack and stuff.</p>'+
+          '<div class="large-6 columns" style="padding:0 0 0 0;">'+
+              '<div class="row collapse">'+
+                '<div class="small-6 columns">'+
+                  '<a class="badge_action babp badgehash-x small button success radius closereveal">Accept to Backpack</a>'+
+                '</div>'+
+                '<div class="small-6 columns">'+
+                  '<a class="small button secondary radius closereveal">Do nothing about it</a>'+
+                '</div>'+
+              '</div>'+
+            '</div>'+
+        '</div>';
+    return output;
 }
 
 function acceptBadge(hash) {
