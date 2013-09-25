@@ -127,7 +127,7 @@ $(document).ready(function() {
   }
 
   function claimAction() {
-    var code = $('#input-code').val(); //'ewqb-m76p-dxbv-7ysq';
+    var code = $('#input-code').val();
     var modal = $('#claim-modal');
     var error = $('#claim-error');
     error.html('&nbsp');

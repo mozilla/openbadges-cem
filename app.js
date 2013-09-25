@@ -76,18 +76,10 @@ app.get('/badge/:shortname', function(req, res, next) {
   });
 });
 
-app.get('/claim', function(req, res, next) {
-  if (req.query && req.query.code) {
-    res.send(200, "you want to claim badge " + req.query.code);
-  } else {
-    res.send(200,"claim a badge, for grins also try <a href=\"/claim?code=123\">this</a>.");
-  };
-});
-
 app.get('/claim/:code', function(req, res, next) {
   var code = req.params.code;
 
-  openbadger.getBadgeFromCode( { code: code, user: false }, function(err, data) {
+  openbadger.getBadgeFromCode( { code: code, email: ''}, function(err, data) {
     if (err)
       return res.send(500, { status: 'error', error: err } );
 
