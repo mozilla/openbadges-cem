@@ -41,10 +41,6 @@ app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
 app.get('/', function(req, res, next) {
-  res.send(200, 'hi there, <a href="/claim">claim</a> or <a href="/badges">badges</a> or <a href="/award">award</a>.'); }
-);
-
-app.get('/badges', function(req, res, next) {
   openbadger.getAllBadges(function(err, badges) {
     if (err) res.send(500, err);
     res.render('badges.html', { badges: badges.badges });
@@ -75,7 +71,7 @@ app.get('/badge/:shortname', function(req, res, next) {
     var permalink = url.format({
         protocol: 'http',
         host: CEM_HOST,
-        pathname: '/badges',
+        pathname: '/',
         hash: 'badgedetail=' + badge.shortname
       });
 
@@ -101,7 +97,15 @@ app.get('/claim/:code', function(req, res, next) {
   });
 });
 
-app.get('/award', function(req, res, next) { res.send(200, "award someone else a badge right here") } );
+app.post('/apply', function(req, res, next) {
+  // form data in req.body.email and req.body.description
+  return res.send(200);
+});
+
+app.post('/give', function(req, res, next) {
+  // form data in req.body.giverEmail, req.body.recipientEmail, and req.body.description
+  return res.send(200);
+});
 
 // Endpoint for aestimia callbacks - can be renamed
 app.use('/aestimia', aestimia.endpoint(function(submission, next) {
