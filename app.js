@@ -8,6 +8,7 @@ const nunjucks = require('nunjucks');
 const sass = require('node-sass');
 const util = require('util'); // temporary for debugging
 const url = require('url');
+const async = require('async');
 
 const port = parseInt(process.env.PORT || '3000');
 const app = express();
@@ -45,9 +46,24 @@ app.get('/', function(req, res, next) {
 );
 
 app.get('/badges', function(req, res, next) {
-  openbadger.getAllBadges(function(err, badges) {
-    if (err) res.send(500, err);
-    res.render('badges.html', { badges: badges.badges });
+  /* We only need badges from a few programs, these will have to be hard coded.
+     For testing, I'm grabbing three programs from csol, these will be renamed
+     once we have data in staging CTM */
+  async.parallel({
+    peer: function(callback) {
+      openbadger.getProgram('anti-cruelty-society-pet-patrol', function(err, program) {
+        callback(null, program);
+      });},
+    cta: function(callback) {
+      openbadger.getProgram('open-books-exploring-technology', function(err, program) {
+        callback(null, program);
+      });}
+  }, function(err, results) {
+    if (err) {
+      console.error("ERROR " + err);
+      return res.send(500, err);
+    }
+    return res.render('badges.html', { peer: results.peer, cta: results.cta });
   });
 });
 
