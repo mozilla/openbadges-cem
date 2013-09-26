@@ -206,6 +206,9 @@ $(document).ready(function() {
         $('#badge_modal').remove();
       }
       outer.appendTo('body').fadeIn('fast');
+
+      $('#modal-form').on('submit', submitApplication);
+
       window.scrollTo(0,ypos);
     }
 
@@ -238,6 +241,20 @@ $(document).ready(function() {
     return lisInRow;
   }
 
+function submitApplication() {
+  $.ajax({
+    url: $(this).attr('action'),
+    type: 'POST',
+    data: $(this).serialize(),
+    success: function(res) {
+      if($('#badge_modal').length != 0) {
+        $('#badge_modal').remove();
+      }
+    }
+  });
+
+  return false;
+}
 
 function retrieveBadge(shortname, callback) {
   $.ajax({

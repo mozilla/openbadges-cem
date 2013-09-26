@@ -1,14 +1,14 @@
-<div class="fullbadge">
+<form id="modal-form" class="fullbadge" action="/give" method="POST">
   <h3>Give {{ badge.name }} to a Peer</h3>
   <img width="200" src="{{ badge.image }}">
   <h4>Check out the criteria for this badge before you begin:</h4>
   {{ badge.criteria }}
   <h4>Your E-mail:</h4>
-  <input type="text">
+  <input name="giverEmail" type="text">
   <h4>Their E-mail:</h4>
-  <input type="text">
+  <input name="recipientEmail" type="text">
   <h4>Why do they deserve this badge?:</h4>
-  <textarea></textarea>
-  <a class="badge_action bsub badgehash-d button medium" href="#">Submit</a>
+  <textarea name="description"></textarea>
+  <input type="submit" class="badge_action bsub badgehash-d button medium" value="Submit" >
   <br>Link: <a target=_blank href="{{ permalink }}">{{ permalink }}</a>
 </div>
