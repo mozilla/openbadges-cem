@@ -162,7 +162,7 @@ $(document).ready(function() {
   function makeModal(element) {
     var shortname = element.data('shortname'),
     elemPosition = element.parent().offset().left,
-    bodyWidth = $('body').offset().width,
+    bodyWidth = $('body').width(),
     parentUL;
 
     if(element.parents('.grid').length) {
@@ -171,11 +171,12 @@ $(document).ready(function() {
       parentUL = $('.grid').first();
     }
 
-    var firstli = parentUL.find('li:first-child').find('a').offset(),
-    xpos = firstli.left,
-    ypos = firstli.top,
-    firstli_w = firstli.width,
-    firstli_h = firstli.height,
+    var firstli = parentUL.find('li:first-child').find('a');
+    var firstli_offset = firstli.offset(),
+    xpos = firstli_offset.left,
+    ypos = firstli_offset.top,
+    firstli_w = firstli.width(),
+    firstli_h = firstli.height(),
     numRows = calculateLIsInRow(parentUL.children('li')),
     height = firstli_h,
     width = firstli_w;
@@ -247,9 +248,10 @@ function submitApplication() {
     type: 'POST',
     data: $(this).serialize(),
     success: function(res) {
-      if($('#badge_modal').length != 0) {
-        $('#badge_modal').remove();
-      }
+      $('#modal-form').find('input, textarea').attr('disabled', 'disabled');
+      var button = $('#modal-form').find('input.button');
+      button.after('<p style="margin-bottom:11px;color:red">Thanks for applying for this badge. A notification will be sent to you upon review of the badge application.</p>');
+      button.hide();
     }
   });
 
