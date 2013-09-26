@@ -52,7 +52,9 @@ module.exports = {
         to: [ { email: giverEmail } ],
         global_merge_vars: [
           { name: 'badgename', content: badge.name },
-          { name: 'friendemail', content: recipientEmail } ]
+          { name: 'badgeimage', content: badge.image },
+          { name: 'badgedesc', content: badge.description },
+          { name: 'recipientemail', content: recipientEmail } ]
       }
     }, callback);
   },
@@ -67,23 +69,26 @@ module.exports = {
         to: [ { email: giverEmail } ],
         global_merge_vars: [
           { name: 'badgename', content: badge.name },
-          { name: 'friendemail', content: recipientEmail } ]
+          { name: 'badgeimage', content: badge.image },
+          { name: 'badgedesc', content: badge.description },
+          { name: 'recipientemail', content: recipientEmail } ]
       }
     }, callback);
   },
 
   // Send email to notify recipientEmail that they were awarded a Peer to Peer badge by giverEmail
-  sendGiveAward: function sendGiveSuccess(badge, giverEmail, recipientEmail, callback) {
+  sendGiveAward: function sendGiveAward(badge, giverEmail, recipientEmail, callback) {
     callback = callback || defaultCallback;
     mandrill('messages/send-template', {
-      template_name: 'cem-badge-earned',
+      template_name: 'cem-peer-badge-earned',
       template_content: [],
       message: {
         to: [ { email: recipientEmail } ],
         global_merge_vars: [
           { name: 'badgename', content: badge.name },
           { name: 'badgeimage', content: badge.image },
-          { name: 'badgedesc', content: badge.description } ]
+          { name: 'badgedesc', content: badge.description },
+          { name: 'giveremail', content: giverEmail } ]
       }
     }, callback);
   }
