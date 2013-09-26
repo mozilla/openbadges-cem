@@ -25,14 +25,14 @@
             </div>
         </div>
 
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
-         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad 
-         minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
-         ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+         minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+         ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
          voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-      <h3>Peer Badges</h3>
+      <h3>{{ peer.program.name }}</h3>
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
-        {% for badge in badges %}{% if loop.index0 < 8 %}
+        {% for shortname, badge in peer.program.earnableBadges %}
         <li>
           <a class="badgethumb bgiv" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
           <span style="top: 150px;" class="detail">
@@ -41,11 +41,12 @@
             </span>
           </a>
         </li>
-        {% endif %}{% endfor %}
+        {% endfor %}
       </ul>
-      <h3>Call to Action Badges</h3>
+
+      <h3>{{ cta.program.name }}</h3>
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
-        {% for badge in badges %}{% if loop.index0 >= 8 and loop.index0 < 16 %}
+        {% for shortname, badge in cta.program.earnableBadges %}
         <li>
           <a class="badgethumb bapp" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
           <span style="top: 150px;" class="detail">
@@ -54,7 +55,7 @@
           </span>
             </a>
         </li>
-        {% endif %}{% endfor %}
+        {% endfor %}
       </ul>
     </div>
   </div>
