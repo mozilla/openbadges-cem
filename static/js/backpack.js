@@ -162,7 +162,7 @@ $(document).ready(function() {
   function makeModal(element) {
     var shortname = element.data('shortname'),
     elemPosition = element.parent().offset().left,
-    bodyWidth = $('body').offset().width,
+    bodyWidth = $('body').width(),
     parentUL;
 
     if(element.parents('.grid').length) {
@@ -171,11 +171,12 @@ $(document).ready(function() {
       parentUL = $('.grid').first();
     }
 
-    var firstli = parentUL.find('li:first-child').find('a').offset(),
-    xpos = firstli.left,
-    ypos = firstli.top,
-    firstli_w = firstli.width,
-    firstli_h = firstli.height,
+    var firstli = parentUL.find('li:first-child').find('a');
+    var firstli_offset = firstli.offset(),
+    xpos = firstli_offset.left,
+    ypos = firstli_offset.top,
+    firstli_w = firstli.width(),
+    firstli_h = firstli.height(),
     numRows = calculateLIsInRow(parentUL.children('li')),
     height = firstli_h,
     width = firstli_w;
@@ -206,6 +207,9 @@ $(document).ready(function() {
         $('#badge_modal').remove();
       }
       outer.appendTo('body').fadeIn('fast');
+
+      $('#modal-form').on('submit', submitApplication);
+
       window.scrollTo(0,ypos);
     }
 
@@ -238,6 +242,21 @@ $(document).ready(function() {
     return lisInRow;
   }
 
+function submitApplication() {
+  $.ajax({
+    url: $(this).attr('action'),
+    type: 'POST',
+    data: $(this).serialize(),
+    success: function(res) {
+      var form = $('#modal-form');
+      form.find('input, textarea').attr('disabled', 'disabled');
+      form.find('input.button').hide();
+      $('#modal-feedback').show();
+    }
+  });
+
+  return false;
+}
 
 function retrieveBadge(shortname, callback) {
   $.ajax({

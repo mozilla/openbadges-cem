@@ -42,20 +42,16 @@ app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
 app.get('/', function(req, res, next) {
-  res.send(200, 'hi there, <a href="/claim">claim</a> or <a href="/badges">badges</a> or <a href="/award">award</a>.'); }
-);
-
-app.get('/badges', function(req, res, next) {
   /* We only need badges from a few programs, these will have to be hard coded.
      For testing, I'm grabbing three programs from csol, these will be renamed
      once we have data in staging CTM */
   async.parallel({
     peer: function(callback) {
-      openbadger.getProgram('anti-cruelty-society-pet-patrol', function(err, program) {
+      openbadger.getProgram('connected-educator-month-peer-to-peer', function(err, program) {
         callback(null, program);
       });},
     cta: function(callback) {
-      openbadger.getProgram('open-books-exploring-technology', function(err, program) {
+      openbadger.getProgram('connected-educator-month-connected-educator', function(err, program) {
         callback(null, program);
       });}
   }, function(err, results) {
@@ -91,7 +87,7 @@ app.get('/badge/:shortname', function(req, res, next) {
     var permalink = url.format({
         protocol: 'http',
         host: CEM_HOST,
-        pathname: '/badges',
+        pathname: '/',
         hash: 'badgedetail=' + badge.shortname
       });
 
@@ -117,7 +113,15 @@ app.get('/claim/:code', function(req, res, next) {
   });
 });
 
-app.get('/award', function(req, res, next) { res.send(200, "award someone else a badge right here") } );
+app.post('/apply', function(req, res, next) {
+  // form data in req.body.email and req.body.description
+  return res.send(200);
+});
+
+app.post('/give', function(req, res, next) {
+  // form data in req.body.giverEmail, req.body.recipientEmail, and req.body.description
+  return res.send(200);
+});
 
 // Endpoint for aestimia callbacks - can be renamed
 app.use('/aestimia', aestimia.endpoint(function(submission, next) {
