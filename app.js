@@ -59,6 +59,7 @@ app.get('/', function(req, res, next) {
       console.error("ERROR " + err);
       return res.send(500, err);
     }
+    //return res.json(results);
     return res.render('badges.html', { peer: results.peer, cta: results.cta });
   });
 });
