@@ -1,14 +1,17 @@
-<div class="fullbadge">
+<form class="fullbadge" action="/claim" method="POST">
+  <input type="hidden" name="code" value="{{ code }}">
+  <input type="hidden" name="shortname" value="{{ badge.shortname }}">
   <h3>You've received the {{ badge.name }} badge!</h3><img width="200px" src="{{ badge.image }}">
   <p>Congratulations!  You have earned a badge for Connected Educators Month!  Enter your e-mail address below to receive your badge.</p>
   <div class="large-6 columns" style="padding:0 0 0 0;">
     <div class="row collapse">
       <div class="small-9 columns">
-        <input value="" id="input-email" placeholder="Enter your e-mail address..." type="text">
+        <input value="" name="email" placeholder="Enter your e-mail address..." type="text">
       </div>
       <div class="small-3 columns">
         <span class="postfix"><a href="#">Claim</a></span>
       </div>
     </div>
+    <p id="claim-feedback" style="margin-bottom:11px;color:red;display:none">Thanks for applying for this badge. A notification will be sent to you upon review of the badge application.</p>
   </div>
-</div>
+</form>
