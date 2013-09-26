@@ -248,10 +248,10 @@ function submitApplication() {
     type: 'POST',
     data: $(this).serialize(),
     success: function(res) {
-      $('#modal-form').find('input, textarea').attr('disabled', 'disabled');
-      var button = $('#modal-form').find('input.button');
-      button.after('<p style="margin-bottom:11px;color:red">Thanks for applying for this badge. A notification will be sent to you upon review of the badge application.</p>');
-      button.hide();
+      var form = $('#modal-form');
+      form.find('input, textarea').attr('disabled', 'disabled');
+      form.find('input.button').hide();
+      $('#modal-feedback').show();
     }
   });
 
