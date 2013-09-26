@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
-{% block title %}CEM Badges{% endblock %}
+{% block title %}Connected Educators Month Badges{% endblock %}
 {% block body %}
   <div class="row">
     <div class="large-12 columns">
       <div class="row">
             <div class="large-7 small-6 columns">
-              <h2 class="title">CEM Badges</h2>
+              <h2 class="title">Connected Educators Badges</h2>
             </div>
             <div class="large-5 small-6 columns">
               <div id="claim-error" class="row collapse" style="font-size:small;text-align:right; margin-top: 0.5em; color:red">
@@ -25,11 +25,12 @@
             </div>
         </div>
 
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
-         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad 
-         minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
-         ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-         voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <p>Connected Educators Month is dedicated to supporting educators learning and collaborating through online communities
+        and social networks.  As you connect with communities and networks, personalize your learning experiences and earn
+        Connected Educator Badges as you go!  Click on the badges below to find activities and projects that interest you
+        and start earning badges today. There are special badges from the
+        <a href="http://connectededucators.org/cem/cem-getting-started/">Connected Educator Month Starter Kit</a>, as well
+        as badges you can award to your peer educators!</p>
       <h3>Peer Badges</h3>
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
         {% for badge in badges %}{% if loop.index0 < 8 %}
