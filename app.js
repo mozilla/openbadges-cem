@@ -28,6 +28,7 @@ var aestimia = require('aestimia-client')({
   endpoint: AESTIMIA_ENDPOINT,
   secret: AESTIMIA_SECRET
 });
+var email = require('./email');
 
 app.use(sass.middleware({
   root: path.join(__dirname, 'bower_components'),
@@ -106,20 +107,36 @@ app.get('/pushbadge', function(req, res, next) {
 
 app.post('/claim', function(req, res, next) {
   var code = req.body.code;
-  var email = req.body.email;
-  var shortname = req.body.shortname;
+  var recipientEmail = req.body.email;
+
   try {
-    validator.check(email, 'Please enter a valid email address.').isEmail();
+    validator.check(recipientEmail, 'Please enter a valid email address.').isEmail();
   } catch (e) {
     return res.send(500, e.message);
   }
 
-  openbadger.claim( { code: code, learner: { email: email } }, function(err, data) {
-    if (err && err.message.indexOf('already has badge') <= -1)
+  openbadger.getBadgeFromCode( { code: code, email: recipientEmail }, function(err, data) {
+    if (err)
       return res.send(500, err.message );
 
-    res.send(200, { status: 'ok', shortname: shortname, email: email });
+    var badge = data.badge;
+
+    if (!badge)
+      return res.send(404);
+
+    openbadger.claim( { code: code, learner: { email: recipientEmail } }, function(err, data) {
+      if (err && err.message.indexOf('already has badge') <= -1)
+        return res.send(500, err.message );
+
+      if (!err) {
+        email.sendApplySuccess(badge, recipientEmail);
+      }
+
+      res.send(200, { status: 'ok', badge: badge, email: recipientEmail });
+    });
   });
+
+
 });
 
 app.get('/claim/:code', function(req, res, next) {

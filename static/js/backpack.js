@@ -278,7 +278,7 @@ $(document).ready(function() {
       type: 'POST',
       data: claimForm.serialize(),
       success: function(data) {
-        showPushModal(data.shortname, data.email);
+        showPushModal(data.badge.shortname, data.email);
       },
       error: function(xhr, status, error) {
         feedback.html(xhr.responseText);
@@ -371,9 +371,8 @@ $(document).ready(function() {
 function getHashParams() {
 
     var e,
-        a = /\+/g,  // Regex for replacing addition symbol with a space
         r = /([^&;=]+)=?([^&;]*)/g,
-        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+        d = function (s) { return decodeURIComponent(s); },
         q = window.location.hash.substring(1);
 
     while (e = r.exec(q))

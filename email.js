@@ -1,13 +1,22 @@
 const KEY = process.env['MANDRILL_KEY'];
+const CEM_HOST = process.env['CEM_HOST'];
 
 const mandrill = require('node-mandrill')(KEY);
+const url = require('url');
 
 function defaultCallback(err, res) {
   if (err) {
     console.log(JSON.stringify(err));
   }
+}
 
-  console.log(res);
+function createPushUrl(badge, email) {
+  return url.format({
+    protocol: 'http',
+    host: CEM_HOST,
+    pathname: '/',
+    hash: 'badgeaccept=' + encodeURIComponent(badge.shortname) + '&email=' + encodeURIComponent(email)
+  });
 }
 
 module.exports = {
@@ -37,7 +46,8 @@ module.exports = {
         global_merge_vars: [
           { name: 'badgename', content: badge.name },
           { name: 'badgeimage', content: badge.image },
-          { name: 'badgedesc', content: badge.description } ]
+          { name: 'badgedesc', content: badge.description },
+          { name: 'pushurl', content: createPushUrl(badge, email) } ]
       }
     }, callback);
   },
@@ -88,7 +98,8 @@ module.exports = {
           { name: 'badgename', content: badge.name },
           { name: 'badgeimage', content: badge.image },
           { name: 'badgedesc', content: badge.description },
-          { name: 'giveremail', content: giverEmail } ]
+          { name: 'giveremail', content: giverEmail },
+          { name: 'pushurl', content: createPushUrl(badge, recipientEmail) } ]
       }
     }, callback);
   }
