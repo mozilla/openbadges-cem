@@ -175,6 +175,9 @@ function submitApplication(badge, email, description, meta, callback) {
   }
 
   badge.rubric = new aestimia.Rubric(badge.rubric);
+  if (!badge.categories) badge.categories = [];
+  badge.categories.push('cem');
+
   meta.badgeId = badge.id;
 
   var callbackUrl = url.format({
@@ -207,17 +210,24 @@ function submitApplication(badge, email, description, meta, callback) {
 app.post('/apply', function(req, res, next) {
   var badgeId = req.body.badgeId;
   if (!badgeId)
-    return res.send(400, { status: 'error', error: 'Missing badgeId parameter' });
+    return res.send(400, 'Missing badgeId parameter');
+
+  try {
+    validator.check(req.body.description, 'Please enter a description').notEmpty();
+    validator.check(req.body.email, 'Please enter a valid email address').isEmail();
+  } catch (e) {
+    return res.send(400, e.message);
+  }
 
   openbadger.getBadge(badgeId, function(err, data) {
     if (err)
-      return res.send(500, { status: 'error', error: err });
+      return res.send(500, err);
 
     submitApplication(data.badge, req.body.email, req.body.description, function (err) {
       if (err)
-        return res.send(500, { status: 'error', error: err });
+        return res.send(500, err);
 
-      return res.send(200, { status: 'success' });
+      return res.send(200, '');
     });
   });
   // form data in req.body.email and req.body.description
@@ -227,11 +237,19 @@ app.post('/apply', function(req, res, next) {
 app.post('/give', function(req, res, next) {
   var badgeId = req.body.badgeId;
   if (!badgeId)
-    return res.send(400, { status: 'error', error: 'Missing badgeId parameter' });
+    return res.send(400, 'Missing badgeId parameter');
+
+  try {
+    validator.check(req.body.description, 'Please enter a description').notEmpty();
+    validator.check(req.body.giverEmail, 'Please enter a valid email').isEmail();
+    validator.check(req.body.recipientEmail, 'Please enter a valid email').isEmail();
+  } catch (e) {
+    return res.send(400, e.message);
+  }
 
   openbadger.getBadge(badgeId, function(err, data) {
     if (err)
-      return res.send(500, { status: 'error', error: err });
+      return res.send(500, err);
 
     var meta = {
       nominator: req.body.giverEmail
@@ -239,9 +257,9 @@ app.post('/give', function(req, res, next) {
 
     submitApplication(data.badge, req.body.recipientEmail, req.body.description, meta, function (err) {
       if (err)
-        return res.send(500, { status: 'error', error: err});
+        return res.send(500, err);
 
-      return res.send(200, { status: 'success' });
+      return res.send(200, '');
     });
   });
   return res.send(200, "Thanks for your submission. We'll notify your peer upon review of the peer badge application.");
