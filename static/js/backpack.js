@@ -160,7 +160,7 @@ $(document).ready(function() {
         modal.html(data);
         modal.find('a.babp').click(function() {
           var url = $(this).attr('data-assertion-url');
-          OpenBadges.issue([url], function(errors, successes) { modal.foundation('reveal', 'close') } );
+          OpenBadges.issue_no_modal([url], function(errors, successes) { modal.foundation('reveal', 'close') } );
           return false;
         });
         modal.find('a.closebutton').click(function() {
