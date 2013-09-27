@@ -231,6 +231,7 @@ app.post('/apply', function(req, res, next) {
       if (err)
         return res.send(500, err);
 
+      email.sendApplyNotifyReviewer(data.badge, req.body.recipientEmail);
       return res.send(200, '');
     });
   });
@@ -263,6 +264,7 @@ app.post('/give', function(req, res, next) {
       if (err)
         return res.send(500, err);
 
+      email.sendApplyNotifyReviewer(data.badge, req.body.recipientEmail);
       return res.send(200, '');
     });
   });
