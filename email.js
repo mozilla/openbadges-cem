@@ -19,6 +19,15 @@ function createPushUrl(badge, email) {
   });
 }
 
+function createApplyUrl(badge) {
+  return url.format({
+    protocol: 'http',
+    host: CEM_HOST,
+    pathname: '/',
+    hash: 'badgeapply=' + encodeURIComponent(badge.shortname)
+  });
+}
+
 module.exports = {
 
   // Send email to notify user that their badge application was rejected
@@ -30,7 +39,8 @@ module.exports = {
       message: {
         to: [ { email: email } ],
         global_merge_vars: [
-          { name: 'badgename', content: badge.name } ]
+          { name: 'badgename', content: badge.name },
+          { name: 'applyurl', content: createApplyUrl(badge) } ]
       }
     }, callback);
   },
@@ -64,7 +74,8 @@ module.exports = {
           { name: 'badgename', content: badge.name },
           { name: 'badgeimage', content: badge.image },
           { name: 'badgedesc', content: badge.description },
-          { name: 'recipientemail', content: recipientEmail } ]
+          { name: 'recipientemail', content: recipientEmail },
+          { name: 'applyurl', content: createApplyUrl(badge) } ]
       }
     }, callback);
   },
