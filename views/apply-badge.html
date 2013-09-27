@@ -1,4 +1,5 @@
 <form id="modal-form" class="fullbadge" action="/apply" method="POST">
+  <input type="hidden" name="badgeId" value="{{ badge.id }}">
   <h3>Apply for {{ badge.name }} </h3>
   <img width="200" src="{{ badge.image }}">
   <h4>Check out the criteria for this badge before you begin:</h4>

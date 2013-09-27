@@ -23,12 +23,12 @@
   },
   "dependencies": {
     "nunjucks": "~0.1.10",
+    "aestimia-client": "~0.1.4",
     "openbadger-client": "~0.1.3",
     "express": "~3.4.0",
     "bower": "~1.2.6",
     "node-sass": "~0.6.6",
     "node-mandrill": "~1.0.1",
-    "async": "~0.2.9",
-    "aestimia-client": "~0.1.4"
+    "async": "~0.2.9"
   }
 }

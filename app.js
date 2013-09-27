@@ -28,6 +28,7 @@ var aestimia = require('aestimia-client')({
   endpoint: AESTIMIA_ENDPOINT,
   secret: AESTIMIA_SECRET
 });
+var email = require('./email');
 
 app.use(sass.middleware({
   root: path.join(__dirname, 'bower_components'),
@@ -114,20 +115,117 @@ app.get('/claim/:code', function(req, res, next) {
   });
 });
 
+function submitApplication(badge, email, description, meta, callback) {
+  if (arguments.length === 4) {
+    callback = meta;
+    meta = {};
+  }
+
+  badge.rubric = new aestimia.Rubric(badge.rubric);
+  meta.badgeId = badge.id;
+
+  var callbackUrl = url.format({
+    protocol: 'http',
+    host: CEM_HOST,
+    pathname: '/aestimia'
+  });
+
+  var criteriaUrl = url.format({
+    protocol: 'http',
+    host: CEM_HOST,
+    pathname: '/',
+    hash: 'badgedetail=' + badge.shortname
+  });
+
+  var application = new aestimia.Application({
+    applicant: new aestimia.Applicant(email),
+    badge: new aestimia.Badge(badge),
+    callbackUrl: callbackUrl,
+    criteriaUrl: criteriaUrl,
+    description: description,
+    evidence: [],
+    meta: meta,
+    url: criteriaUrl
+  });
+
+  aestimia.submit(application, callback);
+}
+
 app.post('/apply', function(req, res, next) {
+  var badgeId = req.body.badgeId;
+  if (!badgeId)
+    return res.send(400, { status: 'error', error: 'Missing badgeId parameter' });
+
+  openbadger.getBadge(badgeId, function(err, data) {
+    if (err)
+      return res.send(500, { status: 'error', error: err });
+
+    submitApplication(data.badge, req.body.email, req.body.description, function (err) {
+      if (err)
+        return res.send(500, { status: 'error', error: err });
+
+      return res.send(200, { status: 'success' });
+    });
+  });
   // form data in req.body.email and req.body.description
-  return res.send(200);
 });
 
 app.post('/give', function(req, res, next) {
+  var badgeId = req.body.badgeId;
+  if (!badgeId)
+    return res.send(400, { status: 'error', error: 'Missing badgeId parameter' });
+
+  openbadger.getBadge(badgeId, function(err, data) {
+    if (err)
+      return res.send(500, { status: 'error', error: err });
+
+    var meta = {
+      nominator: req.body.giverEmail
+    }
+
+    submitApplication(data.badge, req.body.recipientEmail, req.body.description, meta, function (err) {
+      if (err)
+        return res.send(500, { status: 'error', error: err});
+
+      return res.send(200, { status: 'success' });
+    });
+  });
   // form data in req.body.giverEmail, req.body.recipientEmail, and req.body.description
   return res.send(200);
 });
 
 // Endpoint for aestimia callbacks - can be renamed
 app.use('/aestimia', aestimia.endpoint(function(submission, next) {
-  // TO DO: send emails, update openbadger
-  next();
+  openbadger.getBadge(submission.meta.badgeId, function (err, data) {
+    if (err)
+      return next(err);
+
+    var badge = data.badge;
+    var recipient = submission.learner;
+
+    if (submission.accepted) {
+      if (submission.meta.nominator) {
+        email.sendGiveSuccess(badge, submission.meta.nominator, recipient);
+        email.sendGiveAward(badge, submission.meta.nominator, recipient);
+      } else {
+        email.sendApplySuccess(badge, recipient);
+      }
+
+      var query = {
+        badge: badge.shortname,
+        learner: {email: recipient}
+      }
+
+      openbadger.awardBadge(query, next);
+    } else {
+      if (submission.meta.nominator) {
+        email.sendGiveFailure(badge, submission.meta.nominator, recipient);
+      } else {
+        email.sendApplyFailure(badge, recipient);
+      }
+
+      next();
+    }
 }));
 
 if (!module.parent)
