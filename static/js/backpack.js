@@ -8,7 +8,11 @@ $(document).ready(function() {
 
   if (hashParams.hasOwnProperty('badgedetail')) {
     var element = $('a[data-shortname="' + hashParams.badgedetail +'"]');
-    makeModal($(element));
+    makeModal($(element), true);
+  }
+
+  if (hashParams.hasOwnProperty('badgeaccept') && hashParams.hasOwnProperty('email')) {
+    showPushModal(hashParams.badgeaccept, hashParams.email);
   }
 
   //the click function for lists of badge thumbnails
@@ -133,8 +137,9 @@ $(document).ready(function() {
     error.html('&nbsp');
     $.ajax({
       url: '/claim/' + encodeURIComponent(code),
-      success: function(details) {
-        modal.html(details);
+      success: function(data) {
+        modal.html(data);
+        modal.find('a').click(submitClaim);
         modal.foundation('reveal', 'open');
       },
       error: function() {
@@ -142,6 +147,28 @@ $(document).ready(function() {
       }
     });
   }
+
+  function showPushModal(shortname, email) {
+    var modal = $('#claim-modal');
+
+    $.ajax({
+      url: '/pushbadge?shortname=' + encodeURIComponent(shortname) + '&email=' + encodeURIComponent(email),
+      success: function(data) {
+        modal.html(data);
+        modal.find('a.babp').click(function() {
+          var url = $(this).attr('data-assertion-url');
+          OpenBadges.issue([url], function(errors, successes) { modal.foundation('reveal', 'close') } );
+          return false;
+        });
+        modal.find('a.closebutton').click(function() {
+          modal.foundation('reveal', 'close');
+          return false;
+        });
+        modal.foundation('reveal', 'open');
+      }
+    });
+  }
+
 
   //a function to process BadgeUI clicks (details,delete,etc.)
   function badgeAction(element) {
@@ -159,7 +186,7 @@ $(document).ready(function() {
 
   //a function to get badge details and display them in a modal
   //display modal to the left,right,or over the list itself depending on circumstances
-  function makeModal(element) {
+  function makeModal(element, showDetail) {
     var shortname = element.data('shortname'),
     elemPosition = element.parent().offset().left,
     bodyWidth = $('body').width(),
@@ -213,7 +240,7 @@ $(document).ready(function() {
       window.scrollTo(0,ypos);
     }
 
-    if (element.is('.bdet')) {
+    if (element.is('.bdet') || showDetail) {
       return retrieveBadge(shortname, finishModal);
     }
     else if (element.is('.bgiv')) {
@@ -242,85 +269,110 @@ $(document).ready(function() {
     return lisInRow;
   }
 
-function submitApplication() {
-  $.ajax({
-    url: $(this).attr('action'),
-    type: 'POST',
-    data: $(this).serialize(),
-    success: function(res) {
-      var form = $('#modal-form');
-      form.find('input, textarea').attr('disabled', 'disabled');
-      form.find('input.button').hide();
-      $('#modal-feedback').show();
-    }
-  });
+  function submitClaim() {
+    var claimModal = $('#claim-modal');
+    var claimForm = claimModal.find('form');
+    var feedback = claimForm.find('#claim-feedback');
+    $.ajax({
+      url: claimForm.attr('action'),
+      type: 'POST',
+      data: claimForm.serialize(),
+      success: function(data) {
+        showPushModal(data.badge.shortname, data.email);
+      },
+      error: function(xhr, status, error) {
+        feedback.html(xhr.responseText);
+        feedback.show();
+      }
+    });
 
-  return false;
-}
+    return false;
+  }
 
-function retrieveBadge(shortname, callback) {
-  $.ajax({
-    url: '/badge/' + encodeURIComponent(shortname),
-    success: callback
-  });
-}
+  function submitApplication() {
+    var form = $('#modal-form');
+    var feedback = form.find('#modal-feedback');
+    $.ajax({
+      url: $(this).attr('action'),
+      type: 'POST',
+      data: $(this).serialize(),
+      success: function(data, status, xhr) {
+        form.find('input, textarea').attr('disabled', 'disabled');
+        feedback.html(data);
+        form.find('input.button').hide();
+        feedback.show();
+      },
+      error: function(xhr, status, error) {
+        feedback.html(xhr.responseText);
+        feedback.show();
+      }
+    });
 
-function retrieveApply(shortname, callback) {
-  $.ajax({
-    url: '/badge/' + encodeURIComponent(shortname) + '?mode=apply',
-    success: callback
-  });
-}
+    return false;
+  }
 
-function retrieveGive(shortname, callback) {
-  $.ajax({
-    url: '/badge/' + encodeURIComponent(shortname) + '?mode=give',
-    success: callback
-  });
-}
 
-function dateFromUnix(timestamp) {
-  var date = new Date(timestamp * 1000);
-  return date;
-}
+  function retrieveBadge(shortname, callback) {
+    $.ajax({
+      url: '/badge/' + encodeURIComponent(shortname),
+      success: callback
+    });
+  }
 
-//a function to retrieve all a users collections containting a specified badge
-function getCollectionsByBadge(hash,style) {
-  //fetch collection hash and names
-  collection_hash1="collectionhash-a";
-  collection_hash2="collectionhash-b";
-  collection_hash3="collectionhash-c";
+  function retrieveApply(shortname, callback) {
+    $.ajax({
+      url: '/badge/' + encodeURIComponent(shortname) + '?mode=apply',
+      success: callback
+    });
+  }
 
-  var output = '' +
-  '<li><a class="badge_action brfc ' + hash + ' ' + collection_hash1 + '" href="#">x</a><a class="redirect ' + collection_hash1 + '" href="' + docroot + '/badge/by-collection/collectionhash-x.html"><span class="title">Collection A</span></a></li>' +
-  '<li><a class="badge_action brfc ' + hash + ' ' + collection_hash2 + '" href="#">x</a><a class="redirect ' + collection_hash2 + '" href="' + docroot + '/badge/by-collection/collectionhash-x.html"><span class="title">Collection B</span></a></li>' +
-  '<li><a class="badge_action brfc ' + hash + ' ' + collection_hash3 + '" href="#">x</a><a class="redirect ' + collection_hash3 + '" href="' + docroot + '/badge/by-collection/collectionhash-x.html"><span class="title">Collection C</span></a></li>';
-  
-  return output;
-}
-//a function to retrieve all a users collections
-function getCollections(hash,style) {
-  //fetch collection hash and names
-  collection_hash1="collectionhash-d";
-  collection_hash2="collectionhash-e";
-  collection_hash3="collectionhash-f"; 
+  function retrieveGive(shortname, callback) {
+    $.ajax({
+      url: '/badge/' + encodeURIComponent(shortname) + '?mode=give',
+      success: callback
+    });
+  }
 
-  var output = '' +
-  '<li><a class="badge_action batc ' + hash + ' ' + collection_hash1 + '" href="#">Add to <span class="title">Collection D</title></a></li>' +
-  '<li><a class="badge_action batc ' + hash + ' ' + collection_hash2 + '" href="#">Add to <span class="title">Collection E</title></a></li>' +
-  '<li><a class="badge_action batc ' + hash + ' ' + collection_hash3 + '" href="#">Add to <span class="title">Collection F</title></a></li>';
+  function dateFromUnix(timestamp) {
+    var date = new Date(timestamp * 1000);
+    return date;
+  }
 
-  return output;  
-}
+  //a function to retrieve all a users collections containting a specified badge
+  function getCollectionsByBadge(hash,style) {
+    //fetch collection hash and names
+    collection_hash1="collectionhash-a";
+    collection_hash2="collectionhash-b";
+    collection_hash3="collectionhash-c";
 
+    var output = '' +
+    '<li><a class="badge_action brfc ' + hash + ' ' + collection_hash1 + '" href="#">x</a><a class="redirect ' + collection_hash1 + '" href="' + docroot + '/badge/by-collection/collectionhash-x.html"><span class="title">Collection A</span></a></li>' +
+    '<li><a class="badge_action brfc ' + hash + ' ' + collection_hash2 + '" href="#">x</a><a class="redirect ' + collection_hash2 + '" href="' + docroot + '/badge/by-collection/collectionhash-x.html"><span class="title">Collection B</span></a></li>' +
+    '<li><a class="badge_action brfc ' + hash + ' ' + collection_hash3 + '" href="#">x</a><a class="redirect ' + collection_hash3 + '" href="' + docroot + '/badge/by-collection/collectionhash-x.html"><span class="title">Collection C</span></a></li>';
+
+    return output;
+  }
+  //a function to retrieve all a users collections
+  function getCollections(hash,style) {
+    //fetch collection hash and names
+    collection_hash1="collectionhash-d";
+    collection_hash2="collectionhash-e";
+    collection_hash3="collectionhash-f";
+
+    var output = '' +
+    '<li><a class="badge_action batc ' + hash + ' ' + collection_hash1 + '" href="#">Add to <span class="title">Collection D</title></a></li>' +
+    '<li><a class="badge_action batc ' + hash + ' ' + collection_hash2 + '" href="#">Add to <span class="title">Collection E</title></a></li>' +
+    '<li><a class="badge_action batc ' + hash + ' ' + collection_hash3 + '" href="#">Add to <span class="title">Collection F</title></a></li>';
+
+    return output;
+  }
 });
 
 function getHashParams() {
 
     var e,
-        a = /\+/g,  // Regex for replacing addition symbol with a space
         r = /([^&;=]+)=?([^&;]*)/g,
-        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+        d = function (s) { return decodeURIComponent(s); },
         q = window.location.hash.substring(1);
 
     while (e = r.exec(q))

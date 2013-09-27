@@ -29,6 +29,7 @@
     "bower": "~1.2.6",
     "node-sass": "~0.6.6",
     "node-mandrill": "~1.0.1",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "validator": "~1.5.1"
   }
 }

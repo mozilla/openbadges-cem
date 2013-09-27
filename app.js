@@ -9,6 +9,7 @@ const sass = require('node-sass');
 const util = require('util'); // temporary for debugging
 const url = require('url');
 const async = require('async');
+const validator = require('validator');
 
 const port = parseInt(process.env.PORT || '3000');
 const app = express();
@@ -97,6 +98,64 @@ app.get('/badge/:shortname', function(req, res, next) {
   });
 });
 
+app.get('/pushbadge', function(req, res, next) {
+  var shortname = req.query.shortname;
+  var email = req.query.email;
+
+  try {
+    validator.check(email, 'Please enter a valid email address').isEmail();
+  } catch (e) {
+    return res.send(500, e.message);
+  }
+
+  openbadger.getUserBadge( { id: shortname, email: email }, function(err, data) {
+    if (err)
+      return res.send(500, { status: 'error', error: err } );
+
+    var badge = data.badge;
+
+    if (!badge)
+      return res.send(404);
+
+    res.render('push-badge.html', { badge: badge });
+  });
+});
+
+
+app.post('/claim', function(req, res, next) {
+  var code = req.body.code;
+  var recipientEmail = req.body.email;
+
+  try {
+    validator.check(recipientEmail, 'Please enter a valid email address.').isEmail();
+  } catch (e) {
+    return res.send(500, e.message);
+  }
+
+  openbadger.getBadgeFromCode( { code: code, email: recipientEmail }, function(err, data) {
+    if (err)
+      return res.send(500, err.message );
+
+    var badge = data.badge;
+
+    if (!badge)
+      return res.send(404);
+
+    openbadger.claim( { code: code, learner: { email: recipientEmail } }, function(err, data) {
+      if (err && err.message.indexOf('already has badge') <= -1)
+        return res.send(500, err.message );
+
+      if (!err) {
+        email.sendApplySuccess(badge, recipientEmail);
+      }
+
+      res.send(200, { status: 'ok', badge: badge, email: recipientEmail });
+    });
+  });
+
+
+});
+
 app.get('/claim/:code', function(req, res, next) {
   var code = req.params.code;
 
@@ -109,9 +168,7 @@ app.get('/claim/:code', function(req, res, next) {
     if (!badge)
       return res.send(404);
 
-    var template = 'claim-badge.html';
-
-    return res.render(template, { badge: badge });
+    return res.render('claim-badge.html', { badge: badge, code: code });
   });
 });
 
@@ -168,6 +225,7 @@ app.post('/apply', function(req, res, next) {
     });
   });
   // form data in req.body.email and req.body.description
+  return res.send(200, 'Thanks for applying for this badge. A notification will be sent to you upon review of the badge application.');
 });
 
 app.post('/give', function(req, res, next) {
@@ -190,8 +248,7 @@ app.post('/give', function(req, res, next) {
       return res.send(200, { status: 'success' });
     });
   });
-  // form data in req.body.giverEmail, req.body.recipientEmail, and req.body.description
-  return res.send(200);
+  return res.send(200, "Thanks for your submission. We'll notify your peer upon review of the peer badge application.");
 });
 
 // Endpoint for aestimia callbacks - can be renamed
