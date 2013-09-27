@@ -226,7 +226,11 @@ app.use('/aestimia', aestimia.endpoint(function(submission, next) {
 
       next();
     }
-}));
+  });
+})
+);
+
+
 
 if (!module.parent)
   app.listen(port, function(err) {
