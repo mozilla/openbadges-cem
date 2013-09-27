@@ -36,7 +36,7 @@
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
         {% for shortname, badge in peer.program.earnableBadges %}
         <li>
-          <a class="badgethumb bgiv" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
+          <a class="badgethumb bgiv" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}')">
           <span style="top: 150px;" class="detail">
               <span class="title">{{ badge.name }}</span>
               <span class="content">{{ badge.description }}</span>
@@ -50,7 +50,7 @@
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
         {% for shortname, badge in cta.program.earnableBadges %}
         <li>
-          <a class="badgethumb bapp" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
+          <a class="badgethumb bapp" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}')">
           <span style="top: 150px;" class="detail">
             <span class="title">{{ badge.name }}</span>
             <span class="content">{{ badge.description }}</span>
@@ -63,6 +63,6 @@
   </div>
 
   <!-- hastily added to prototype, should be generated in js -->
-  <div id="claim-modal" class="reveal-modal small" data-reveal-ajax="true">
+  <div id="claim-modal" class="reveal-modal" style="width:700px;margin-left:-350px" data-reveal-ajax="true">
   </div>
 {% endblock %}
