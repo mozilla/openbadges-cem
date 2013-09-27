@@ -175,6 +175,9 @@ function submitApplication(badge, email, description, meta, callback) {
   }
 
   badge.rubric = new aestimia.Rubric(badge.rubric);
+  if (!badge.categories) badge.categories = [];
+  badge.categories.push('cem');
+
   meta.badgeId = badge.id;
 
   var callbackUrl = url.format({
