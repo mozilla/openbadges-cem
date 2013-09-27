@@ -10,8 +10,11 @@ $(document).ready(function() {
     var element = $('a[data-shortname="' + hashParams.badgedetail +'"]');
     makeModal($(element), true);
   }
-
-  if (hashParams.hasOwnProperty('badgeaccept') && hashParams.hasOwnProperty('email')) {
+  else if (hashParams.hasOwnProperty('badgeapply')) {
+    var element = $('a[data-shortname="' + hashParams.badgeapply +'"]');
+    makeModal($(element));
+  }
+  else if (hashParams.hasOwnProperty('badgeaccept') && hashParams.hasOwnProperty('email')) {
     showPushModal(hashParams.badgeaccept, hashParams.email);
   }
 
