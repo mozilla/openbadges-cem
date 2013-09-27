@@ -52,13 +52,17 @@ app.get('/', function(req, res, next) {
     cta: function(callback) {
       openbadger.getProgram('connected-educator-month-connected-educator', function(err, program) {
         callback(null, program);
+      });},
+    starter: function(callback) {
+      openbadger.getProgram('connected-educator-month-start-kit', function(err, program) {
+        callback(null, program);
       });}
   }, function(err, results) {
     if (err) {
       console.error("ERROR " + err);
       return res.send(500, err);
     }
-    return res.render('badges.html', { peer: results.peer, cta: results.cta });
+    return res.render('badges.html', { peer: results.peer, cta: results.cta, starter: results.starter });
   });
 });
 
