@@ -6,7 +6,6 @@ const http = require('http');
 const express = require('express');
 const nunjucks = require('nunjucks');
 const sass = require('node-sass');
-const util = require('util'); // temporary for debugging
 const url = require('url');
 const async = require('async');
 const validator = require('validator');
@@ -44,9 +43,7 @@ app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
 app.get('/', function(req, res, next) {
-  /* We only need badges from a few programs, these will have to be hard coded.
-     For testing, I'm grabbing three programs from csol, these will be renamed
-     once we have data in staging CTM */
+  /* We only need badges from a few programs, these will have to be hard coded.*/
   async.parallel({
     peer: function(callback) {
       openbadger.getProgram('connected-educator-month-peer-to-peer', function(err, program) {
@@ -61,7 +58,6 @@ app.get('/', function(req, res, next) {
       console.error("ERROR " + err);
       return res.send(500, err);
     }
-    //return res.json(results);
     return res.render('badges.html', { peer: results.peer, cta: results.cta });
   });
 });
