@@ -1,5 +1,6 @@
 const KEY = process.env['MANDRILL_KEY'];
 const CEM_HOST = process.env['CEM_HOST'];
+const REVIEWER_EMAIL = process.env['REVIEWER_EMAIL'];
 
 const mandrill = require('node-mandrill')(KEY);
 const url = require('url');
@@ -41,6 +42,23 @@ module.exports = {
         global_merge_vars: [
           { name: 'badgename', content: badge.name },
           { name: 'applyurl', content: createApplyUrl(badge) } ]
+      }
+    }, callback);
+  },
+
+  // Send email to notify reviwer staff that there is a badge application awaiting their approval.
+  sendApplyNotifyReviewer: function sendApplyNotifyReviewer(badge, email, callback) {
+    callback = callback || defaultCallback;
+    mandrill('messages/send-template', {
+      template_name: 'cem-apply-notify-reviewer',
+      template_content: [],
+      message: {
+        to: [ { email: REVIEWER_EMAIL } ],
+        global_merge_vars: [
+          { name: 'badgename', content: badge.name },
+          { name: 'badgeimage', content: badge.image },
+          { name: 'badgedesc', content: badge.description },
+          { name: 'recipientemail', content: email } ]
       }
     }, callback);
   },
