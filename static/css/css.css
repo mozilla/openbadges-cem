@@ -244,8 +244,9 @@ span.title {
 
 /* line 230, ../sass/app.scss */
 .square.grid > li > .badgethumb {
-  background-position: center 1.5em;
+  background-position: center .75em;
   background-repeat: no-repeat;
+  background-size:140px;
 }
 
 /* line 234, ../sass/app.scss */
