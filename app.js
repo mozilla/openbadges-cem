@@ -42,20 +42,41 @@ app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
+function splitDescriptions(badge) {
+  if (badge) {
+    var descriptions = badge.description.split('*', 2);
+
+    badge.shortDescription = descriptions[0];
+    badge.description = descriptions[1];
+  }
+
+  return badge;
+};
+
+function splitProgramDescriptions(data) {
+  if (data && data.program) {
+    for (shortname in data.program.earnableBadges) {
+      data.program.earnableBadges[shortname] = splitDescriptions(data.program.earnableBadges[shortname]);
+    }
+  }
+
+  return data;
+}
+
 app.get('/', function(req, res, next) {
   /* We only need badges from a few programs, these will have to be hard coded.*/
   async.parallel({
     peer: function(callback) {
-      openbadger.getProgram('connected-educator-month-peer-to-peer', function(err, program) {
-        callback(null, program);
+      openbadger.getProgram('digital-youth-network-dyn-youmedia', function(err, program) {
+        callback(null, splitProgramDescriptions(program));
       });},
     cta: function(callback) {
-      openbadger.getProgram('connected-educator-month-connected-educator', function(err, program) {
-        callback(null, program);
+      openbadger.getProgram('digital-youth-network-dyn-youmedia', function(err, program) {
+        callback(null, splitProgramDescriptions(program));
       });},
     starter: function(callback) {
       openbadger.getProgram('connected-educator-month-start-kit', function(err, program) {
-        callback(null, program);
+        callback(null, splitProgramDescriptions(program));
       });}
   }, function(err, results) {
     if (err) {
@@ -73,7 +94,7 @@ app.get('/badge/:shortname', function(req, res, next) {
     if (err)
       return res.send(500, { status: 'error', error: err } );
 
-    var badge = data.badge;
+    var badge = splitDescriptions(data.badge);
 
     if (!badge)
       return res.send(404);
@@ -112,7 +133,7 @@ app.get('/pushbadge', function(req, res, next) {
     if (err)
       return res.send(500, { status: 'error', error: err } );
 
-    var badge = data.badge;
+    var badge = splitDescriptions(data.badge);
 
     if (!badge)
       return res.send(404);
@@ -136,7 +157,7 @@ app.post('/claim', function(req, res, next) {
     if (err)
       return res.send(500, err.message );
 
-    var badge = data.badge;
+    var badge = splitDescriptions(data.badge);
 
     if (!badge)
       return res.send(404);
@@ -163,7 +184,7 @@ app.get('/claim/:code', function(req, res, next) {
     if (err)
       return res.send(500, { status: 'error', error: err } );
 
-    var badge = data.badge;
+    var badge = splitDescriptions(data.badge);
 
     if (!badge)
       return res.send(404);
@@ -227,11 +248,13 @@ app.post('/apply', function(req, res, next) {
     if (err)
       return res.send(500, err);
 
-    submitApplication(data.badge, req.body.email, req.body.description, function (err) {
+    var badge = splitDescriptions(data.badge);
+
+    submitApplication(badge, req.body.email, req.body.description, function (err) {
       if (err)
         return res.send(500, err);
 
-      email.sendApplyNotifyReviewer(data.badge, req.body.recipientEmail);
+      email.sendApplyNotifyReviewer(badge, req.body.recipientEmail);
       return res.send(200, '');
     });
   });
@@ -256,15 +279,17 @@ app.post('/give', function(req, res, next) {
     if (err)
       return res.send(500, err);
 
+    var badge = splitDescriptions(data.badge);
+
     var meta = {
       nominator: req.body.giverEmail
     }
 
-    submitApplication(data.badge, req.body.recipientEmail, req.body.description, meta, function (err) {
+    submitApplication(badge, req.body.recipientEmail, req.body.description, meta, function (err) {
       if (err)
         return res.send(500, err);
 
-      email.sendApplyNotifyReviewer(data.badge, req.body.recipientEmail);
+      email.sendApplyNotifyReviewer(badge, req.body.recipientEmail);
       return res.send(200, '');
     });
   });
@@ -277,7 +302,7 @@ app.use('/aestimia', aestimia.endpoint(function(submission, next) {
     if (err)
       return next(err);
 
-    var badge = data.badge;
+    var badge = splitDescriptions(data.badge);
     var recipient = submission.learner;
 
     if (submission.accepted) {
