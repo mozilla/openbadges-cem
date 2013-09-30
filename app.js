@@ -67,11 +67,11 @@ app.get('/', function(req, res, next) {
   /* We only need badges from a few programs, these will have to be hard coded.*/
   async.parallel({
     peer: function(callback) {
-      openbadger.getProgram('digital-youth-network-dyn-youmedia', function(err, program) {
+      openbadger.getProgram('connected-educator-month-peer-to-peer', function(err, program) {
         callback(null, splitProgramDescriptions(program));
       });},
     cta: function(callback) {
-      openbadger.getProgram('digital-youth-network-dyn-youmedia', function(err, program) {
+      openbadger.getProgram('connected-educator-month-connected-educator', function(err, program) {
         callback(null, splitProgramDescriptions(program));
       });},
     starter: function(callback) {
