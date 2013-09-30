@@ -15,6 +15,7 @@ export AESTIMIA_URL='http://localhost:9999/api/'
 export AESTIMIA_SECRET='rendell'
 export CEM_HOST='localhost:3000'
 export MANDRILL_KEY='fattington'
+export REVIEWER_EMAIL='reviewer@reviewsite.com'
 ```
 
 Then you can source the file like `. config.env`.
