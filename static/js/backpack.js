@@ -123,7 +123,7 @@ $(document).ready(function() {
     else {
       output += '<li><a class="badge_action bapp button small" data-shortname="' + shortname + '" href="#">Apply</a></li>';
     }
-    output += '<li><a class="badge_action bdet" data-shortname="' + shortname + '" href="#">Detail</a></li>';
+    output += '<li><a class="badge_action bdet" title="More information" data-shortname="' + shortname + '" href="#">Detail</a></li>';
 
 
     output += '' +

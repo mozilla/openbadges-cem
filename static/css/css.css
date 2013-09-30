@@ -341,6 +341,9 @@ span.title {
 .grid .ui > ul > li > a.bdet {
   display: block;
   margin-top: inherit;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* line 303, ../sass/app.scss */
