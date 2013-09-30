@@ -31,22 +31,23 @@
         and start earning badges today. There are special badges from the
         <a href="http://connectededucators.org/cem/cem-getting-started/">Connected Educator Month Starter Kit</a>, as well
         as badges you can award to your peer educators!</p>
-      <h3>{{ peer.program.name }}</h3>
-
+      <h3 class="categoryheader">{{ starter.program.name }}</h3>
+      <h4 class="subheader">Apply for badges defined in the <a href="http://connectededucators.org/cem/cem-getting-started/">Connected Educator Month Starter Kit</a></h4>
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
-        {% for shortname, badge in peer.program.earnableBadges %}
+        {% for shortname, badge in starter.program.earnableBadges %}
         <li>
-          <a class="badgethumb bgiv" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}')">
+          <a class="badgethumb bapp" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
           <span style="top: 150px;" class="detail">
-              <span class="title">{{ badge.name }}</span>
-              <span class="content">{{ badge.description }}</span>
-            </span>
+            <span class="title">{{ badge.name }}</span>
+            <span class="content">{{ badge.description }}</span>
+          </span>
           </a>
         </li>
         {% endfor %}
       </ul>
 
-      <h3>{{ cta.program.name }}</h3>
+      <h3 class="categoryheader">{{ cta.program.name }}</h3>
+      <h4 class="subheader">Earn badges that demonstrate your commitment to being a connected educator</h4>
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
         {% for shortname, badge in cta.program.earnableBadges %}
         <li>
@@ -60,16 +61,17 @@
         {% endfor %}
       </ul>
 
-      <h3>{{ starter.program.name }}</h3>
+      <h3 class="categoryheader">{{ peer.program.name }}</h3>
+      <h4 class="subheader">Nominate another connected educator for a badge to recognize his or her contributions to the profession</h4>
       <ul class="small-block-grid-2 large-block-grid-4 badge-thumbs square grid">
-        {% for shortname, badge in starter.program.earnableBadges %}
+        {% for shortname, badge in peer.program.earnableBadges %}
         <li>
-          <a class="badgethumb bapp" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}');background-size:150px">
+          <a class="badgethumb bgiv" data-shortname="{{ badge.shortname }}" href="#" style="background-image:url('{{ badge.image }}')">
           <span style="top: 150px;" class="detail">
-            <span class="title">{{ badge.name }}</span>
-            <span class="content">{{ badge.description }}</span>
-          </span>
-            </a>
+              <span class="title">{{ badge.name }}</span>
+              <span class="content">{{ badge.description }}</span>
+            </span>
+          </a>
         </li>
         {% endfor %}
       </ul>

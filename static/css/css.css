@@ -28,6 +28,10 @@ h2.title {
   margin-bottom: 1.2em;
 }
 
+h3.categoryheader {
+    margin-bottom: 0.0em;
+}
+
 @media only screen and (min-width: 768px) {
   /* line 77, ../sass/app.scss */
   h2.title {
@@ -475,3 +479,4 @@ h2 .collection_action {
   background-color: #51dcf8;
   border-color: #3cbad8;
 }
+

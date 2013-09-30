@@ -161,6 +161,7 @@ $(document).ready(function() {
         modal.find('a.babp').click(function() {
           var url = $(this).attr('data-assertion-url');
           openPushTab([url]);
+          modal.foundation('reveal', 'close');
         });
         modal.find('a.closebutton').click(function() {
           modal.foundation('reveal', 'close');
