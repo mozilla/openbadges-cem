@@ -483,3 +483,55 @@ h2 .collection_action {
   border-color: #3cbad8;
 }
 
+/* footer-stuff */
+
+#footer {
+    background:#b8b49d;
+    float:left;
+    width:100%;
+    margin-bottom: 1px;
+    padding-bottom: 15px;
+    font-size: 14px;
+}
+
+#footer a {
+    color: rgb(255, 255, 255);
+    font-weight:bold;
+    font-family: "Helvetica Neue",Arial,Helvetica,"Nimbus Sans L",sans-serif;
+}
+#footer ul li {
+    list-style-type: none;
+    float: left;
+    margin: 0px 10px;
+}
+
+#footer ul li:first-child {
+    margin-left: 0px;
+}
+
+#footer .dept-ed {
+    float:left;
+    margin-right:10px;
+}
+
+#footer-links {
+    padding-left:20px;
+    float:left;
+    width:auto;
+
+}
+#footer-contents {
+    margin: 5px auto 0;
+    padding: 5px 0 10px 0;
+    width: 960px;
+}
+
+#footer-menu {
+    margin: 10px 0px;
+}
+
+#footer-social {
+    float: right;
+    width: 220px;
+    text-align: right;
+}
