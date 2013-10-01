@@ -3,7 +3,7 @@
   <h3>Apply for {{ badge.name }} </h3>
   <img width="200" src="{{ badge.image }}">
   <h4>Check out the criteria for this badge before you begin:</h4>
-  {{ badge.criteria }}
+  {{ badge.criteria | safe }}
   <h4>Reflect on how you've met the criteria and on your experience, incorporating any links specified:</h4>
   <textarea name="description"></textarea>
   <h4>Your E-mail:</h4>
