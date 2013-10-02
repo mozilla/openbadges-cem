@@ -3,7 +3,7 @@
   <h3>Give {{ badge.name }} to a Peer</h3>
   <img width="200" src="{{ badge.image }}">
   <h4>Check out the criteria for this badge before you begin:</h4>
-  {{ badge.criteria }}
+  {{ badge.criteria | safe }}
   <h4>Your E-mail:</h4>
   <input name="giverEmail" type="text">
   <h4>Their E-mail:</h4>
