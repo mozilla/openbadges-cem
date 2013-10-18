@@ -48,6 +48,9 @@ module.exports = function makeOpenbadgerHooks(openbadger) {
         var claimCode = req.body.claimCode;
         var email = req.body.email;
 
+        if (req.body.isTesting)
+          return res.send(200, { status: 'ok' });
+
         if (!claimCode)
          return res.send(500, { status: 'error', error: 'No claimCode provided' });
 
@@ -68,6 +71,10 @@ module.exports = function makeOpenbadgerHooks(openbadger) {
             return res.send(200, { status: 'ok' });
           });
         });
+      });
+
+      app.post('/notify/award', auth, function(req, res, next) {
+        return res.send(200, { status: 'ok' });
       });
     }
   };
