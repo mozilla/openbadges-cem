@@ -29,6 +29,8 @@ var aestimia = require('aestimia-client')({
   secret: AESTIMIA_SECRET
 });
 var email = require('./email');
+var openbadgerHooks = require('./openbadger-hooks')(openbadger);
+var helpers = require('./helpers');
 
 app.use(sass.middleware({
   root: path.join(__dirname, 'bower_components'),
@@ -42,41 +44,22 @@ app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
-function splitDescriptions(badge) {
-  if (badge) {
-    var descriptions = badge.description.split('*', 2);
-
-    badge.shortDescription = descriptions[0];
-    badge.description = descriptions[1];
-  }
-
-  return badge;
-};
-
-function splitProgramDescriptions(data) {
-  if (data && data.program) {
-    for (shortname in data.program.earnableBadges) {
-      data.program.earnableBadges[shortname] = splitDescriptions(data.program.earnableBadges[shortname]);
-    }
-  }
-
-  return data;
-}
+openbadgerHooks.define(app);
 
 app.get('/', function(req, res, next) {
   /* We only need badges from a few programs, these will have to be hard coded.*/
   async.parallel({
     peer: function(callback) {
       openbadger.getProgram('connected-educator-month-peer-to-peer', function(err, program) {
-        callback(null, splitProgramDescriptions(program));
+        callback(null, helpers.splitProgramDescriptions(program));
       });},
     cta: function(callback) {
       openbadger.getProgram('connected-educator-month-connected-educator', function(err, program) {
-        callback(null, splitProgramDescriptions(program));
+        callback(null, helpers.splitProgramDescriptions(program));
       });},
     starter: function(callback) {
       openbadger.getProgram('connected-educator-month-start-kit', function(err, program) {
-        callback(null, splitProgramDescriptions(program));
+        callback(null, helpers.splitProgramDescriptions(program));
       });}
   }, function(err, results) {
     if (err) {
@@ -94,7 +77,7 @@ app.get('/badge/:shortname', function(req, res, next) {
     if (err)
       return res.send(500, { status: 'error', error: err } );
 
-    var badge = splitDescriptions(data.badge);
+    var badge = helpers.splitDescriptions(data.badge);
 
     if (!badge)
       return res.send(404);
@@ -133,7 +116,7 @@ app.get('/pushbadge', function(req, res, next) {
     if (err)
       return res.send(500, { status: 'error', error: err } );
 
-    var badge = splitDescriptions(data.badge);
+    var badge = helpers.splitDescriptions(data.badge);
 
     if (!badge)
       return res.send(404);
@@ -157,7 +140,7 @@ app.post('/claim', function(req, res, next) {
     if (err)
       return res.send(500, err.message );
 
-    var badge = splitDescriptions(data.badge);
+    var badge = helpers.splitDescriptions(data.badge);
 
     if (!badge)
       return res.send(404);
@@ -184,7 +167,7 @@ app.get('/claim/:code', function(req, res, next) {
     if (err)
       return res.send(500, { status: 'error', error: err } );
 
-    var badge = splitDescriptions(data.badge);
+    var badge = helpers.splitDescriptions(data.badge);
 
     if (!badge)
       return res.send(404);
@@ -248,7 +231,7 @@ app.post('/apply', function(req, res, next) {
     if (err)
       return res.send(500, err);
 
-    var badge = splitDescriptions(data.badge);
+    var badge = helpers.splitDescriptions(data.badge);
 
     submitApplication(badge, req.body.email, req.body.description, function (err) {
       if (err)
@@ -279,7 +262,7 @@ app.post('/give', function(req, res, next) {
     if (err)
       return res.send(500, err);
 
-    var badge = splitDescriptions(data.badge);
+    var badge = helpers.splitDescriptions(data.badge);
 
     var meta = {
       nominator: req.body.giverEmail
@@ -302,7 +285,7 @@ app.use('/aestimia', aestimia.endpoint(function(submission, next) {
     if (err)
       return next(err);
 
-    var badge = splitDescriptions(data.badge);
+    var badge = helpers.splitDescriptions(data.badge);
     var recipient = submission.learner;
 
     if (submission.accepted) {
